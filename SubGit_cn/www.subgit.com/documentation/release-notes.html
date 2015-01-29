@@ -1,0 +1,184 @@
+<!doctype html>
+<html>
+
+<!-- Mirrored from www.subgit.com/documentation/release-notes.html by HTTrack Website Copier/3.x [XR&CO'2013], Fri, 16 Jan 2015 16:17:43 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+	<link rel="icon" type="image/x-icon" href="../img/favicon.ico">
+	<meta name="keywords" content="Git,Svn,SubGit,git-svn,Repository,VCS,DVCS,TMate" />
+	<meta charset="UTF-8">
+  
+  <title>SubGit&nbsp;::&nbsp;Release Notes</title>
+  
+	<meta name="description" content="Git-svn alternative for a safe migration from Svn to Git. Install once on the server side and use both Git and Svn as long as you like." />
+	<link href='../css/documentation.css' rel='stylesheet' type='text/css'>
+	<link href="https://plus.google.com/114128677298030695536" rel="publisher" />
+	<script type="text/javascript" src="../js/jquery-latest.min.js"></script>
+	<script type="text/javascript" src="../js/documentation_script.js"></script>
+	<script type="text/javascript">
+
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-25451601-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+
+	</script>
+	<script type="text/javascript">
+		(function()
+		{var po = document.createElement("script");
+			po.type = "text/javascript"; po.async = true;po.src = "../../apis.google.com/js/plusone.js";
+			var s = document.getElementsByTagName("script")[0];
+			s.parentNode.insertBefore(po, s);
+		})();
+	</script>
+</head>
+<body id="documentation">
+	<div id="container">
+		<div id="top">
+	<div class="wrapper">
+		<a href="../index.html"><div id="top_logo"></div></a>
+		<div id="top_menu">
+			<ul>
+        
+          <li><a href="../index-2.html">Home</a></li>
+        
+        
+          <li><a href="../documentation.html">Documentation</a></li>
+        
+        
+          <li><a href="../download.html">Download</a></li>
+        
+        
+          <li><a href="../pricing.html">Pricing</a></li>
+        
+        
+          <li><a href="../contacts.html">Contact</a></li>
+        
+			</ul>
+		</div>
+	</div>
+</div>
+<div id="content">
+  
+  <div class="coffee_wrap green_wrap">
+    <h1>Release Notes</h1>
+  </div>
+  
+
+
+			<div class="wrapper">
+
+
+<h3>SubGit 2.0.3 Release Notes</h3>
+
+<p>SubGit 2.0.3 is bug fix release that fixes the following issues:</p>
+
+<ul>
+<li>  Tranlsation peformance improved for multi-project repositories.</li>
+<li>  Failure to update single Git reference no longer results in translation to stop.</li>
+</ul>
+
+<p>In addition there is the following feature has been added:</p>
+
+<ul>
+<li>  Subversion pre-revprop-change hook is no longer required for authors mapping to work.</li>
+</ul>
+
+<h3>SubGit 2.0.2 Release Notes</h3>
+
+<p>SubGit 2.0.2 is bug fix release that fixes the following issues:</p>
+
+<ul>
+<li>  Potential translation failure on .gitignore rename</li>
+<li>  Issues related to the &#39;skip&#39; option that allows to exclude paths from translation</li>
+<li>  SSL client certificate was ignored when specified on the command line of the &#39;import&#39; command</li>
+<li>  New version of SVNKit library is used that introduces improvements in SSL authentication and GNOME keyring support</li>
+</ul>
+
+<p>In addition there is the following feature has been added:</p>
+
+<ul>
+<li>  pathEncoding option now supports &#39;none&#39; value to disable path translation</li>
+</ul>
+
+<h3>SubGit 2.0.1 Release Notes</h3>
+
+<p>SubGit 2.0.1 introduces the following features:</p>
+
+<ul>
+<li>  Adding a new branch mapping to configuration file no longer requires a full rebuild of a Git repository in case newly mapped branch never existed in Subversion repository.</li>
+<li>  SubGit will now use SSH-agent to authenticate on remote Subversion server when SSH-agent is available.</li>
+<li>  Repositories created with Subversion 1.8 now supported in the local mirror mode.</li>
+</ul>
+
+<h3>SubGit 2.0.0 Release Notes</h3>
+
+<p>SubGit 2.0.0 introduces the following major features:</p>
+
+<ul>
+<li><p>Support for remote Subversion repositories:</p>
+
+<ul>
+<li>  SubGit 2.0.0 introduces new remote mirror mode. In this mode all synchronization related tasks are performed on the Git repository side, Subversion side remains untouched. Consequently, Subversion users are not aware of the mirror(s) presence, however their changes are reflected in the Git repository. Changes pushed by the Git users are instantly promoted to the Subversion repository. SubGit &#39;Remote&#39; Book provides full details on the new mode operation and configuration.</li>
+</ul></li>
+<li><p>One-shot import from Subversion to Git</p>
+
+<ul>
+<li>  To import existing project from Subversion to Git without configuring a mirror, one may now use new shortcut import command. This command has being designed to eliminate human interaction and allows all the options to be specified once on the command line. You may find more information on import command in SubGit &#39;Remote&#39; Book.</li>
+</ul></li>
+<li><p>Performance improvements</p>
+
+<ul>
+<li>  SubGit instruments repository with the hook scripts that are invoked on each push or commit (in case SubGit is installed in Subversion repository). In version 2.0, we have reimplemented these hooks as native binaries so that JVM startup overhead is no longer an issue. On platforms where native binaries are not available (OS X or some specific Linux versions) good old JVM-based hooks are used.</li>
+</ul></li>
+<li><p>Flexible branches and tags layout</p>
+
+<ul>
+<li><p>Version 2.0 allows to specify multiple branches locations for a single project. For instance, the following mapping will work now:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">[svn]
+...
+trunk = trunk:refs/heads/master
+branches = branches/*:refs/heads/*
+branches = releases/*:refs/releases/*
+tags = tags/*:refs/tags/*
+shelves = shelves/*:refs/shelves/*
+</code></pre></div>
+<p>Find more in the <a href="../book.html#5">branches mapping</a> section of the SubGit Local Book.</p></li>
+</ul></li>
+</ul>
+
+</div>
+
+
+		</div>
+<div id="footer">
+	<div class="wrapper">
+		<div id="footer_logo"></div>
+		<div id="footer_middle">
+			<div id="footer_email"><a href="mailto:support@subgit.com">support@subgit.com</a></div>
+			<div class="clear"></div>
+			<div id="footer_copyright">
+				<p>Copyright © 2012-2015 TMate Software</p>
+				<p>Subversion and Git are names of Open Source version control system, which are developed independently. TMate Software and the website subgit.com are independent of Subversion and Git developers, and have no relationship, formal or informal.</p>
+			</div>
+		</div>
+		<div id="footer_social">
+			<a href="http://stackoverflow.com/questions/tagged/subgit?sort=votes&amp;pageSize=50" id="footer_stack">&nbsp;</a>
+			<a href="http://plus.google.com/+Subgit" id="footer_gplus">&nbsp;</a>
+			<a href="http://twitter.com/subgit" id="footer_twitter">&nbsp;</a>
+			<a id="up" href="#up"></a>
+		</div>
+	</div>
+	<div class="clear"></div>
+</div>
+
+	</div>
+</body>
+
+<!-- Mirrored from www.subgit.com/documentation/release-notes.html by HTTrack Website Copier/3.x [XR&CO'2013], Fri, 16 Jan 2015 16:17:43 GMT -->
+</html>

@@ -1,0 +1,182 @@
+<!doctype html>
+<html>
+
+<!-- Mirrored from www.subgit.com/documentation/gitsvn.html by HTTrack Website Copier/3.x [XR&CO'2013], Fri, 16 Jan 2015 16:17:27 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+	<link rel="icon" type="image/x-icon" href="../img/favicon.ico">
+	<meta name="keywords" content="Git,Svn,SubGit,git-svn,Repository,VCS,DVCS,TMate" />
+	<meta charset="UTF-8">
+  
+  <title>SubGit&nbsp;::&nbsp;Comparison to Git-Svn</title>
+  
+	<meta name="description" content="Git-svn alternative for a safe migration from Svn to Git. Install once on the server side and use both Git and Svn as long as you like." />
+	<link href='../css/documentation.css' rel='stylesheet' type='text/css'>
+	<link href="https://plus.google.com/114128677298030695536" rel="publisher" />
+	<script type="text/javascript" src="../js/jquery-latest.min.js"></script>
+	<script type="text/javascript" src="../js/documentation_script.js"></script>
+	<script type="text/javascript">
+
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-25451601-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+
+	</script>
+	<script type="text/javascript">
+		(function()
+		{var po = document.createElement("script");
+			po.type = "text/javascript"; po.async = true;po.src = "../../apis.google.com/js/plusone.js";
+			var s = document.getElementsByTagName("script")[0];
+			s.parentNode.insertBefore(po, s);
+		})();
+	</script>
+</head>
+<body id="documentation">
+	<div id="container">
+		<div id="top">
+	<div class="wrapper">
+		<a href="../index.html"><div id="top_logo"></div></a>
+		<div id="top_menu">
+			<ul>
+        
+          <li><a href="../index-2.html">Home</a></li>
+        
+        
+          <li><a href="../documentation.html">Documentation</a></li>
+        
+        
+          <li><a href="../download.html">Download</a></li>
+        
+        
+          <li><a href="../pricing.html">Pricing</a></li>
+        
+        
+          <li><a href="../contacts.html">Contact</a></li>
+        
+			</ul>
+		</div>
+	</div>
+</div>
+<div id="content">
+  
+  <div class="coffee_wrap green_wrap">
+    <h1>Comparison to Git-Svn</h1>
+  </div>
+  
+
+
+			<div class="wrapper">
+
+
+<p>From the very beginning, SubGit was developed as an alternative to Git-Svn, so quite naturally SubGit does resolve many of the Git-Svn limitations. In particular, the following benefits of SubGit might be outlined:</p>
+
+<h3>Migration to Git, not to Git-Svn</h3>
+
+<p><strong>Git-Svn</strong></p>
+
+<ul>
+<li>  Learn how to use Git.</li>
+<li>  Learn how to use Git-Svn (read this page).</li>
+<li>  Start using Git-Svn, encounter one of the caveats, read documentation again.</li>
+<li>  Fit your mind to the limited git-svn workflow, avoid non-linear history and merges.</li>
+</ul>
+
+<p><strong>SubGit</strong></p>
+
+<ul>
+<li>  Learn how to use Git.</li>
+<li>  Use Git.</li>
+</ul>
+
+<h3>Install once</h3>
+
+<p><strong>Git-Svn</strong></p>
+
+<ul>
+<li>  Each developer in your team:</li>
+<li>  Clones repository with Git-Svn (takes a lot of time depending on repository size).</li>
+<li>  Adjusts Git-Svn configuration, making sure it doesn&#39;t conflict with other users&#39; configurations.</li>
+<li>  Suffers of the numerous Git-Svn pitfalls and caveats.</li>
+</ul>
+
+<p><strong>SubGit</strong></p>
+
+<ul>
+<li>  System administrator installs SubGit into your Git or Subversion repository, adjusts configuration, reuses already configured service (e.g. Apache or SSH) for network access.</li>
+<li>  Developers use Git.</li>
+<li>  Nothing is lost in translation</li>
+</ul>
+
+<h3>Nothing is lost in translation</h3>
+
+<p><strong>Git-Svn</strong></p>
+
+<ul>
+<li>  User runs Git-Svn &#39;dcommit&#39; to &#39;push&#39; changes to Subversion repository.</li>
+<li>  Git commits are translated to Subversion revisions.</li>
+<li>  Another user runs Git-Svn &#39;rebase&#39; to get these changes.</li>
+<li>  Subversion revisions get translated to Git commits.</li>
+</ul>
+
+<p>Run English to Russian and back to English translation on Google Translate service and you will get a rough idea of what may be lost with Git-Svn.</p>
+
+<p><strong>SubGit</strong></p>
+
+<ul>
+<li>  User pushes Git commits to the Git repository.</li>
+<li>  Git commits are translated to Subversion revisions asynchronously.</li>
+<li>  Another Git user pulls these very commits from the Git repository.</li>
+<li>  Subversion user receives translated revisions on update.</li>
+<li>  SubGit makes sure that translation is only performed when necessary and as asynchronously (in the background) as possible.</li>
+</ul>
+
+<h3>Freedom of tools</h3>
+
+<p><strong>Git-Svn</strong></p>
+
+<ul>
+<li>  Only Git-Svn. Only command line. Only linear history.</li>
+</ul>
+
+<p><strong>SubGit</strong></p>
+
+<ul>
+<li>  Use Git and any tool you like, be it IDE-integration or standalone Git UI client.</li>
+</ul>
+
+</div>
+
+
+		</div>
+<div id="footer">
+	<div class="wrapper">
+		<div id="footer_logo"></div>
+		<div id="footer_middle">
+			<div id="footer_email"><a href="mailto:support@subgit.com">support@subgit.com</a></div>
+			<div class="clear"></div>
+			<div id="footer_copyright">
+				<p>Copyright © 2012-2015 TMate Software</p>
+				<p>Subversion and Git are names of Open Source version control system, which are developed independently. TMate Software and the website subgit.com are independent of Subversion and Git developers, and have no relationship, formal or informal.</p>
+			</div>
+		</div>
+		<div id="footer_social">
+			<a href="http://stackoverflow.com/questions/tagged/subgit?sort=votes&amp;pageSize=50" id="footer_stack">&nbsp;</a>
+			<a href="http://plus.google.com/+Subgit" id="footer_gplus">&nbsp;</a>
+			<a href="http://twitter.com/subgit" id="footer_twitter">&nbsp;</a>
+			<a id="up" href="#up"></a>
+		</div>
+	</div>
+	<div class="clear"></div>
+</div>
+
+	</div>
+</body>
+
+<!-- Mirrored from www.subgit.com/documentation/gitsvn.html by HTTrack Website Copier/3.x [XR&CO'2013], Fri, 16 Jan 2015 16:17:27 GMT -->
+</html>

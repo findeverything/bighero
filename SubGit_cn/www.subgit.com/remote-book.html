@@ -1,0 +1,1181 @@
+<!doctype html>
+<html>
+
+<!-- Mirrored from www.subgit.com/remote-book.html by HTTrack Website Copier/3.x [XR&CO'2013], Fri, 16 Jan 2015 16:14:51 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+	<link rel="icon" type="image/x-icon" href="img/favicon.ico">
+	<meta name="keywords" content="Git,Svn,SubGit,git-svn,Repository,VCS,DVCS,TMate" />
+	<meta charset="UTF-8">
+  
+  <title>SubGit&nbsp;::&nbsp;Documentation</title>
+  
+	<meta name="description" content="Git-svn alternative for a safe migration from Svn to Git. Install once on the server side and use both Git and Svn as long as you like." />
+	<link href='css/documentation.css' rel='stylesheet' type='text/css'>
+	<link href="https://plus.google.com/114128677298030695536" rel="publisher" />
+	<script type="text/javascript" src="js/jquery-latest.min.js"></script>
+	<script type="text/javascript" src="js/documentation_script.js"></script>
+	<script type="text/javascript">
+
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-25451601-1']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+
+	</script>
+	<script type="text/javascript">
+		(function()
+		{var po = document.createElement("script");
+			po.type = "text/javascript"; po.async = true;po.src = "../apis.google.com/js/plusone.js";
+			var s = document.getElementsByTagName("script")[0];
+			s.parentNode.insertBefore(po, s);
+		})();
+	</script>
+</head>
+<body id="documentation">
+	<div id="container">
+		<div id="top">
+	<div class="wrapper">
+		<a href="index.html"><div id="top_logo"></div></a>
+		<div id="top_menu">
+			<ul>
+        
+          <li><a href="index-2.html">Home</a></li>
+        
+        
+          <li><a href="documentation.html">Documentation</a></li>
+        
+        
+          <li><a href="download.html">Download</a></li>
+        
+        
+          <li><a href="pricing.html">Pricing</a></li>
+        
+        
+          <li><a href="contacts.html">Contact</a></li>
+        
+			</ul>
+		</div>
+	</div>
+</div>
+<div id="content">
+  
+
+
+			<div class="green_wrap">
+	<h1>SubGit镜像远程SVN仓库到本地</h1>
+</div>
+<div id="booknav">
+	<ul>
+		<li>
+			<ul style="margin-left: 20px; !important">
+				<li class="chapter">
+					<!--<a href="#1">1. Overview</a>-->
+					<a href="#1">1. 概要</a>
+				</li> 
+				<li class="chapter">
+					<!--<a href="#2">2. SubGit Features</a>-->
+					<a href="#2">2. SubGit 功能</a>
+				</li>
+				<li class="chapter">
+					<!--<a href="#3">3. Mirror Configuration Overview</a>-->
+					<a href="#3">3. 镜像配置概要</a>
+				</li>
+				<li class="subchapter">
+					<!--<a href="#4">3.1. Subversion Projects Location</a>-->
+					<a href="#4">3.1. Subversion 项目定位</a>
+				</li>
+				<li class="subchapter">
+					<!--<a href="#5">3.2. Branches and Tags mapping</a>-->
+					<a href="#5">3.2. Branches和Tags匹配</a>
+				</li>
+				<li class="subchapter">
+					<!--<a href="#6">3.3. Authors Mapping</a>-->
+					<a href="#6">3.3. 权限匹配</a>
+				</li>
+				<li class="chapter">
+					<!--<a href="#7">4. One-time Import from Subversion to Git</a>-->
+					<a href="#7">4. 实现SVN到Git的一次导入</a>
+				</li>
+				<li class="chapter">
+					<!--<a href="#8">5. Creating Git Mirror of a Subversion Repository</a>-->
+					<a href="#8">5. 创建SVN仓库的Git镜像</a>
+				</li>
+				<li class="subchapter">
+					<!--<a href="#9">5.1. Installation Stages</a>-->
+					<a href="#9">5.1. 安装Git临时库</a>
+				</li>
+				<li class="subchapter">
+					<!--<a href="#10">5.2. Run sbgit configure</a>-->
+					<a href="#10">5.2. 创建Subgit配置文件</a>
+				</li>
+				<li class="subchapter">
+					<!--<a href="#11">5.3. Adjust configuration: overview</a>-->
+					<a href="#11">5.3. 调整配置信息：概要</a>
+				</li>
+				<li class="subchapter">
+					<!--<a href="#12">5.4. Adjust configuration: provide authors mapping</a>-->
+					<a href="#12">5.4. 调整配置信息：权限</a>
+				</li>
+				<li class="subchapter">
+					<!--<a href="#13">5.5. Adjust configuration: path encoding</a>-->
+					<a href="#13">5.5. 调整配置信息: 路径编码格式</a>
+				</li>
+				<li class="subchapter">
+					<!--<a href="#14">5.6. Adjust configuration: branches mapping</a>-->
+					<a href="#14">5.6. 调整配置信息: 分支匹配关系</a>
+				</li>
+				<li class="subchapter">
+					<!--<a href="#15">5.7. Adjust configuration: credentials</a>-->
+					<a href="#15">5.7. 调整配置信息：认证</a>
+				</li>
+				<li class="subchapter">
+					<a href="#16">5.8. Credentials and Subversion pre-revprop-change hook</a>
+				</li>
+				<li class="subchapter">
+					<!--<a href="#17">5.9. Adjust configuration: other options</a>-->
+					<a href="#17">5.9. 调整配置信息：其他</a>
+				</li>
+				<li class="subchapter">
+					<!--<a href="#18">5.10. Run subgit install</a>-->
+					<a href="#18">5.10. 安装Subgit</a>
+				</li>
+				<li class="subchapter">
+					<!--<a href="#19">5.11. Background translation process</a><br>-->
+					<a href="#19">5.11. 后台SNV 到 Git的转化进程</a>
+				</li>
+				<li class="subchapter">
+					<!--<a href="#20">5.12. Recommended client-side Git configuration</a>-->
+					<a href="#20">5.12. 推荐的客户端Git配置</a>
+				</li>
+				<li class="chapter">
+					<!--<a href="#21">6. Changing SubGit Confiuration</a>-->
+					<a href="#21">6. 修改Subgit配置</a>
+				</li>
+				<li class="subchapter">
+					<a href="#22">6.1. Writing Hooks</a>
+				</li>
+				<li class="subchapter">
+					<!--<a href="#23">6.2. Applying configuration changes</a>-->
+					<a href="#23">6.2. 如何让配置变更工作</a>
+				</li>
+				<li class="chapter">
+					<!--<a href="#24">7. Uninstalling SubGit</a>-->
+					<a href="#24">7. 卸载SubGit</a>
+				</li>
+				<li class="chapter">
+					<a href="#25">8. 注册SubGit</a>
+				</li>
+				<li class="chapter">
+					<a href="#26">9. Translation Limitations</a>
+				</li>
+				<li class="chapter">
+					<a href="#27">10. 备份</a>
+				</li>
+				<li class="chapter">
+					<a href="#28">11. Subgit对系统的要求</a>
+				</li>
+				<li class="chapter">
+					<a href="#29">12. 安装Subgit工具</a>
+				</li>
+				<li class="chapter">
+					<a href="#30">13. 寻求帮助</a>
+				</li>
+			</ul>
+		</li>
+	</ul>
+</div>
+
+
+<div class="wrapper" id="1">
+<h2>Chapter 1. Overview</h2>
+
+<p>SubGit is a tool for bidirectional Subversion and Git repositories synchronization. SubGit is written in Java.</p>
+<p>SubGit 是一个同步SVN和Git仓库的工具，用java编写。</p>
+
+<p>For information on how to install SubGit into the <strong>local</strong> Subversion repository, refer to <a href="#">SubGit Local Book</a>. This book only covers the case when SubGit is used to create Git mirror of a remote Subversion repository.</p>
+
+<p>如何将SubGit安装在 <strong>SVN仓库中</strong>, 请参考 <a href="#">SubGit Local Book</a>. 这个文档只是针对一种情况，在本地路径中通过SubGit创建一个远程SVN仓库的Git镜像</p>
+
+<p>Most commonly, SubGit user starts with Subversion repository being configured on the server. Access to Subversion repository is available over network (with HTTP(s), plain svn or svn over SSH protocols) and over the local file system. Correspondingly, users requests are handled by Apache Web Server, svnserve daemon or sshd daemon which invokes svnserve process. Figure 1.1 shows a generic outline of the described configuration.</p>
+
+<p>大部分情况，SubGit用户都是从一个配置在</p>
+
+<p><strong>Figure 1.1. Common Subversion Setup</strong>
+<img src="img/remotebook/start.png" alt="Common Subversion Setup"></p>
+
+<p>User creates Git repositories with SubGit and configures them so, that these repositories are kept in sync with the remote Subversion repository. Each Git repository mirrors one Subverion project (there could be multiple projects within a single Subversion repository). Changes pushed to the Git repository are instantly translated into Subversion project and vice versa - commits to Subversion project are reflected in the corresponding Git repository.</p>
+
+<p>Optionally, user may enable revision properties on Subversion side by enabling pre-revprop-change hook in Subversion repository - this will let SubGit use single Subversion user account, but this modification is not required, so even Subversion repositories that you do not have shell access to could be mirrored with SubGit. Figure 1.2 shows typical SubGit set up that allows one to use both Subversion and Git and smoothes migration path.</p>
+
+<p>During mirror initialization stage, SubGit translates existing Subversion revisions into a newly created Git repository. There is also a way to skip mirroring and only use SubGit for one-time import from Subversion to Git.</p>
+
+<p>Git镜像初始化阶段，SubGit把SVN仓库中所有的Version全部转换到Git仓库中。同时，也可以跳过这一步，通过SubGit的One-time导入功能，将SVN的所有version全部倒入Git仓库中</p>
+
+<p><strong>Figure 1.2. Git Mirror of a Remote Subversion Repository created with SubGit</strong>
+<p><strong>图 1.2. 通过SubGit创建一个远程SVN仓库的Git镜像</strong>
+<img src="img/remotebook/remote-subgit.png" alt="Git Mirror of a Remote Subversion Repository created with SubGit"></p>
+
+<p><strong>Chapter summary:</strong></p>
+<p><strong>本节概要：</strong></p>
+
+<ul>
+<li>SubGit creates Git repository that mirrors project in a remote Subversion repositories</li>
+<li>SubGit could be used for one-time import from Subversion to Git</li>
+<li>Direct shell access to Subversion repository is not required</li>
+<li>SubGit grants users with a choice of whether to use Git or Subversion and smoothes migration path</li>
+<li>SubGit is implemented in Java and needs Java 1.5 or newer</li>
+<li></li>
+<li>Sub创建Git仓库，Git仓库镜像SVN远程仓库中的一个项目</li>
+<li>SubGit能够一次性的将所有SVN仓库中的Version全部导入到Git仓库</li>
+<li>无需要直接访问SVN仓库，SubGit可以自动同步SVN和Git仓库</li>
+<li>SubGit grants users with a choice of whether to use Git or Subversion and smoothes migration path</li>
+<li>SubGit需要JAVA 1.5或者更高的版本支持</li>
+</ul>
+
+<p><a href="#up"></a></p>
+
+</div>
+<div class="wrapper" id="2">
+<h2>Chapter 2. SubGit 特点</h2>
+
+<p>Major SubGit benefits are</p>
+<p>主要优势</p>
+
+<ul>
+<li>Great translation and initial import performance (in comparison to git-svn)</li>
+<li>No limits are put on Svn and Git users (contrary to git-svn)</li>
+<li>Requires no shell access to Subversion repository (contrary to SubGit 1.0.x)</li>
+
+<li>强大的初始化转换和导入性能(in comparison to git-svn)</li>
+<li>SVN和Git用户，都没有任何的限制(contrary to git-svn)</li>
+<li>Requires no shell access to Subversion repository (contrary to SubGit 1.0.x)</li>
+</ul>
+
+<p>SubGit includes powerful translation engine, which would translate</p>
+<p>SubGit拥有强大的SVN到Git的转换引擎，能够转换以下信息</p>
+
+<ul>
+<li>merge tracking information and merge history</li>
+<li>non-linear Git commits history to Subversion</li>
+<li>subprojects, tags and branches</li>
+<li>svn:ignore and .gitignore ignore definitions</li>
+<li>svn:eol-style and .gitattributes special properties</li>
+<li>symbolic links</li>
+<li>commit authors and dates</li>
+<li>files and directories renames</li>
+
+<li>Merge跟踪信息以及Merge历史信息</li>
+<li>non-linear Git commits history to Subversion</li>
+<li>SVN子项目，分支以及标签</li>
+<li>svn:ignore and .gitignore ignore definitions</li>
+<li>svn:eol-style and .gitattributes special properties</li>
+<li>symbolic links</li>
+<li>commit的用户和日期</li>
+<li>重命名的文件和目录</li>
+</ul>
+
+<p>There are a few limitations on translation (see <a href="#chapter9">Chapter 9, Translation Limitations</a>). These limitations only affects translation, and do not prevent Git and Subversion from being used to their full extents.</p>
+
+<p>There are a few limitations on translation (see <a href="#chapter9">Chapter 9, Translation Limitations</a>). These limitations only affects translation, and do not prevent Git and Subversion from being used to their full extents.</p>
+
+<p><a href="#up"></a></p>
+
+</div>
+<div class="wrapper" id="3">
+<h2>Chapter 3. Mirror Configuration Overview</h2>
+
+<p>To synchronize Subversion and Git repositories, SubGit maps entities of one system to those of another. One Git repository is always mapped to a single project within Subversion repository. There could be from one to many projects in Subversion repository. Git repository contains SubGit configuration that defines the following information and mappings:</p>
+
+<p>为了同步SVN和Git仓库，SubGit把SVN仓库中的一个Project匹配到，Git的一个仓库中。SVN的一个仓库中可以有多个Project。Git仓库中包含了SubGit的的配置信息，配置信息包含以下的SVN和Git的匹配信息：</p>
+
+<ul>
+<li>Subversion project location within Subversion repository</li>
+<li>Subversion project branches and tags are mapped to the Git branch and tag references</li>
+<li>Subversion users are mapped to the Git committers</li>
+</ul>
+<ul>
+<li>Subversion project location within Subversion repository</li>
+<li>SVN的分支和变迁，匹配到Git的分支和标签</li>
+<li>SVN的用户，匹配到Git的Committer</li>
+</ul>
+
+<p>Above mappings are static and configured within Git repository once before translation and synchronization is started. All mappings and other information is stored in configuration files located in the GIT_REPOS/subgit directory. Following sections describe these mappings in more details.</p>
+
+<blockquote>
+<p><strong>Note:</strong><br>
+Subversion is a very powerful system and sets mostly no limits on the repository and project layout. Hence, it may not be always possible to define necessary mappings for any project stored in Subversion repository found out there in the wild. Such unmappable projects would not be handled by SubGit. However, for the most of the Subversion repositories in production use, mappings could be defined and, in most cases, they are detected automatically by SubGit.</p>
+</blockquote>
+
+<blockquote>
+<p><strong>注意:</strong><br>
+SVN本身就是一个强大的VCS系统，同时对仓库中的项目几乎是没有任何的目录结构要求。</p>
+</blockquote>
+
+</div>
+<div class="wrapper" id="4">
+<h3>3.1. Subversion Projects Location</h3>
+
+<p>Subversion repository may contain one or more projects. Project is a location (folder) in Subversion repository which follows Subversion recommended repository layout, i.e. project folder has <em>trunk</em>, <em>branches</em> and <em>tags</em> subfolders:</p>
+
+<p>一个SVN仓库可能包含一个或者多个项目。在SVN仓库中，一个项目就是可以看作就是一个目录，并且遵循SVN推荐的标准目录结构，例如： <em>trunk：主干</em>, <em>branches：分支</em> 和 <em>标签</em> subfolders:</p>
+
+
+<div class="highlight"><pre><code class="language-text" data-lang="text">/project
+    /trunk    # 项目&#39;s &quot;主线&quot;
+    /branches # contains project feature and version branches, copied from trunk or other branches
+    /tags     # 包含项目标签 (标签实际是主干或者分支的一个快照)
+</code></pre></div>
+<p>It is not necessary for <em>trunk</em>, <em>branches</em> and <em>tags</em> folders to have these exact names, but the roles of these folders are important. Each project could be mapped to a bare Git repository as shown in Figure 3.1 and Figure 3.3 along with the corresponding parts of SubGit configuration file.</p>
+<p><em>主干</em>, <em>分支</em> 和<em>标签</em> 目录，并不是说必须叫Trunk，Branches，Tags。但是这些目录所具有的功能非常重要，是不能改变的。如图：3.1和图3.3所示，每一个SVN项目都能够匹配到一个空的Git仓库，并且有一个1对1的配置</p>
+
+<p><strong>Figure 3.1. Single Project Repository Mapping</strong>
+<p><strong>Figure 3.1. 单一项目仓库匹配</strong>
+<img src="img/remotebook/remote-single.png" alt="Single Project Repository Mapping"></p>
+
+<p><strong>Figure 3.2. SubGit configuration file (single project mapping)</strong></p>
+<p><strong>Figure 3.2. SubGit 配置文件 (单一项目仓库匹配)</strong></p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">[svn]
+# URL that points to a project root
+# (may be the same as Subversion repository root)
+url = http://host/svn/repos
+</code></pre></div>
+<p><strong>Figure 3.3. Multiple Projects Repository Mapping</strong>
+<p><strong>Figure 3.3. 多项目仓库匹配</strong>
+<img src="img/remotebook/remote-multi.png" alt="Multiple Projects Repository Mapping"></p>
+
+<p><strong>Figure 3.4. SubGit configuration file (two projects mapping)</strong></p>
+<p><strong>Figure 3.4. SubGit 配置文件 (SVN仓库中包含两个项目)</strong></p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">/var/git/project1.git/subgit/config
+
+    [svn]
+    # project location within Subversion repository
+    url = http://host/svn/repos/project1
+    ...
+
+/var/git/project2.git/subgit/config
+
+    [svn]
+    # project location within Subversion repository
+    url = http://host/svn/repos/project2
+</code></pre></div>
+<p><a href="#up"></a></p>
+
+</div>
+<div class="wrapper" id="5">
+<h3>3.2. Branches and Tags mapping</h3>
+<h3>3.2. 分支和标签的匹配</h3>
+
+<p>For each project mapped to a Git repository, branches and tags are mapped to the corresponding references in the Git repository. SubGit distinguishes the following folders in Subversion project as branches or tags:</p>
+<p>每一个SVN项目匹配到一个Git仓库中，分支和标签分别匹配到Git仓库中的引用（references）。SubGit按照下列SVN目录规则，匹配SVN的分支和标签</p>
+
+<ul>
+<li>主干（trunk） 目录</li>
+<li>分支（branches）中的所有目录</li>
+<li>folders in the dedicated shelves folder</li>
+<li>标签（tags）中的所有的目录</li>
+</ul>
+
+<p>Shelves are special kind of branches used by SubGit to represent Git anonymous branches in Subversion repository.</p>
+
+<p>Each folder is mapped to the reference (branch or tag) in the Git repository. For trunk folder the mapping is one-to-one as there could be only one trunk folder (as well as only one master reference in Git) and for other folders wildcard mapping is used. Default mapping and corresponding SubGit configuration file part is shown in Figure 3.5 and Figure 3.6.</p>
+<p>每个目录被匹配到Git仓库中的引用（reference）。对主干（trunk）来说，只能匹配到master</p>
+
+<p>Whenever project uses standard folder names (i.e. trunk, branches and tags), SubGit would automatically detect and configure mapping for that project. Otherwise configuration would have to be manually adjusted to include proper paths and references names.</p>
+
+<p><strong>Figure 3.5. Default Branches and Tags Mapping</strong>
+<img src="img/remotebook/mapping.png" alt="Default Branches and Tags Mapping"></p>
+
+<p><strong>Figure 3.6. SubGit configuration file (default branches and tags mapping)</strong></p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">[svn]
+url = http://host/svn/repos/project1
+
+# branches and tags mapping in form of
+# branchKind=Subversion-Path-Pattern:Git-Reference-Pattern
+
+trunk = trunk:refs/heads/master
+branches = branches/*:refs/heads/*
+shelves = shelves/*:refs/shelves/*
+tags = tags/*:refs/tags/*
+</code></pre></div>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text">[svn]
+url = http://host/svn/repos/project1
+
+# 分支和标签的匹配模式：
+# branchKind=Subversion-Path-Pattern:Git-Reference-Pattern
+
+trunk = trunk:refs/heads/master
+branches = branches/*:refs/heads/* /* 匹配到Git的分支名称和SVN一致
+shelves = shelves/*:refs/shelves/*
+tags = tags/*:refs/tags/*
+</code></pre></div>
+
+<p>Notice that project2 in Figure 3.3 features non-standard names for <em>trunk</em>, <em>branches</em> and <em>tags</em> folders. Figure 3.7 shows mapping configuration for that project.</p>
+<p>注意，图3.3中的Project2并不是标准的SVN结构。图3.7是Project2的分支匹配配置</p>
+
+<p><strong>图 3.7. 非标准结构的匹配规则</strong></p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">[svn]
+url = http://host/svn/repos/project2
+
+# 分支和标签的匹配模式：
+# branchKind=Subversion-Path-Pattern:Git-Reference-Pattern
+
+trunk = main:refs/heads/master
+branches = versions/*:refs/heads/*  /* 匹配到Git的分支名称和SVN一致
+shelves = shelves/*:refs/shelves/*
+tags = stamps/*:refs/tags/*
+</code></pre></div>
+<p>Figure 3.8 outlines combined project and branches mappings for two projects Subversion repository.</p>
+
+<p><strong>Figure 3.8. Project and Branches Mapping</strong>
+<img src="img/remotebook/remote-multi.png" alt="Project and Branches Mapping"></p>
+
+<p><a href="#up"></a></p>
+
+</div>
+<div class="wrapper" id="6">
+<h3>3.3. Authors Mapping</h3>
+
+<p>By default there is no explicit authors mapping and the following rules are used for translation:</p>
+
+<ul>
+<li>Subversion &quot;svn_user_name&quot; is translated to &quot;svn_user_name &lt;&gt;&quot; in Git</li>
+<li>Git &quot;Author Name &lt;email@domain.com&gt;&quot; is translated to &quot;Author Name&quot; in Subversion</li>
+</ul>
+
+<p>Additionally to the default rule, explicit authors mapping may be provided by SubGit configuration. Authors mapping is stored in a separate text file which is looked at GIT_REPOS/subgit/authors.txt by default. Mapping file is read in system default encoding.</p>
+
+<p><strong>Figure 3.9. GIT_REPOS/subgit/authors.txt file</strong></p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">svn_user_name = Git Name &lt;name@email.com&gt;
+</code></pre></div>
+<p>Default authors.txt location may be changed in SubGit configuration file.</p>
+
+<p><strong>Figure 3.10. SubGit configuration file defines authors.txt location</strong></p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">[core]
+...
+# location of the authors mapping file
+authorsFile = subgit/authors.txt
+...
+</code></pre></div>
+<p>Authors mapping file (authors.txt) contents may be altered at any time and new mapping becomes effective immediately.</p>
+
+<p><a href="#up"></a></p>
+
+</div>
+<div class="wrapper" id="7">
+<h2>Chapter 4. One-time Import from Subversion to Git</h2>
+
+<p>通过SubGit完成SVN到Git的迁移后，如果不需要实时同步SVN和Git，那么SubGit提供另外一种方式，导入SVN的所有Version。导入命令需要用户提供所有的必要参数，从而可以通过batch，实现导入自动化。</p>
+<p>执行导入前，并不需要Subgit config 命令，配置git仓库。</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ subgit help import
+
+info: Import SVN or Git repository.
+usage: subgit import [--svn-url URL] [--default-domain DOMAIN] [--minimal-revision REV] [--authors-file FILE] [--trunk PATH] [--branches PATH] [--tags PATH] [--username SVN_USERNAME] [--password SVN_PASSWORD] [--non-interactive] [--trust-server-cert] [--private-key SVN_PRIVATE_KEY_PATH] [--private-key-passphrase SVN_PRIVATE_KEY_PASSPHRASE] REPOS_PATH
+
+    
+    导入指定的SVN项目到Git仓库中。
+    如果Git仓库不存在，自动创建目录
+
+    完成导入后
+    如果不需要SVN和Git同步，执行 subgit uninstall --purge REPOS_PATH 删除SubGit相关文件
+    如果需要同步，执行 subgit install REPOS_PATH 开启自动同步
+
+Valid options:
+
+--svn-url URL           : SVN远程仓库路径。
+--default-domain DOMAIN : 域名。SubGit使用域名生成Git commit的用户。
+--minimal-revision REV  : SVN起始版本，小于此版本的版本不会被迁移到Git
+--authors-file FILE     : authors mapping file used to map Subversion committers names to Git committers names
+-T [--trunk] PATH       : SVN主干目录名称，一般都是trunk。
+-b [--branches] PATH    : SVN分支目录名称，一般都是branches
+-t [--tags] PATH        : SVN标签目录名称，一般都是tags
+--username SVN_USERNAME : 导入时，访问SVN的用户。如果没有设定，命令开始执行时，会要求指定
+--password SVN_PASSWORD : 导入时，访问SVN的用户密码。如果没有设定，命令开始执行是，会要求指定
+--non-interactive       : do no interactive prompting
+--trust-server-cert     : accept unknown SSL server certificates without prompting (but only with &#39;--non-interactive&#39;)
+--private-key           : path to private key file to use to access Subversion repository; if no path is specified, SubGit may prompt for it later
+--private-key-passphrase: passphrase for private key file to use to access Subversion repository; if no passphrase is specified, SubGit may ask for it later
+</code></pre></div>
+
+<p>In most cases, defaults along with pre-existing Subversion authentication storage would be sufficient and only Subversion project URL have to be specified as an import command argument:</p>
+
+<p>大部分情况下，不需要指定username和password，默认的或者缓存中的用户权限就可以， 只有SVN URL需要指定:</p>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ subgit import --non-interactive --svn-url http://svn.svnkit.com/repos/sqljet sqljet.git
+SubGit version 2.0.0-EAP (&#39;Patrick&#39;) build #2552
+This is an EAP build, which you may not like to use in production environment.
+
+Translating Subversion revisions to Git commits...
+
+  Subversion revisions translated: 1292.
+  Total time: 579 seconds.
+
+IMPORT SUCCESSFUL
+</code></pre></div>
+<p>You may interrupt import operation with Ctrl-C and resume it later. Also, it is possible to enable synchronization by running subgit install GIT_REPOS upon import completion.</p>
+
+<p><a href="#up"></a></p>
+
+</div>
+<div class="wrapper" id="8">
+<h2>Chapter 5. Creating Git Mirror of a Subversion Repository</h2>
+
+</div>
+<div class="wrapper" id="9">
+<h3>5.1. Installation Stages</h3>
+
+<p>To translate Subversion repository to Git and to enable bi-directional synchronization, one have to use SubGit to create and configure Git repository. Mirror creation consists of three stages: <strong>repository creation</strong>, <strong>configuration adjustment</strong> and <strong>installation</strong>.</p>
+
+<p><strong>Figure 5.1. Mirror Creation Stages</strong>
+<img src="img/remotebook/remote-install-stages.png" alt="Mirror Creation Stages"></p>
+
+<p>At configuration stage SubGit creates Git repositories and stores default mirror configuration into it. Then user has a chance to adjust generated configuration. At the installation stage SubGit performs actual translation of existing Subversion revisions into Git commits and then turns synchronization on. Figure 5.1 schematically shows SubGit installation stages.</p>
+
+<p><a href="#up"></a></p>
+
+</div>
+<div class="wrapper" id="10">
+<h3>5.2. Run subgit configure</h3>
+
+<p>Run SubGit configure command to make SubGit create empty bare Git repository and link it with a project in Subversion.</p>
+
+<p>When running configure command user have to specify Subversion project URL and, optionally, minimal revision to start synchronization from:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ subgit configure --svn-url http://svn.svnkit.com/repos/sqljet sqljet.git
+SubGit version 2.0.0 (&#39;Patrick&#39;) build #2552
+
+Configuring writable Git mirror of remote Subversion repository:
+    Subversion repository URL : http://svn.svnkit.com/repos/sqljet
+    Git repository location   : sqljet.git
+
+CONFIGURATION SUCCESSFUL
+</code></pre></div>
+<p>At configuration stage SubGit does not establish connect with Subversion repository, but generates configuration file with the information necessary to proceed with installation. Files added to the Git repository by the configure command are shown below:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">git_repository/
+  branches
+  hooks
+  logs
+  objects
+  refs
+  subgit/
+    lib/          # SubGit binaries
+    logs/         # SubGit logs
+    authors.txt   # default authors mapping (empty)
+    config        # SubGit configuration file
+    passwd        # Password credentials to access Subversion repository
+    format        # Information on SubGit version
+config            # Git configuration file
+HEAD
+</code></pre></div>
+<p><a href="#up"></a></p>
+
+</div>
+<div class="wrapper" id="11">
+<h3>5.3. Adjust configuration: overview</h3>
+
+<p>SubGit configure command creates bare empty Git repository and writes default configuration and mappings to the GIT_REPOS/subgit/config file. Generated default configuration have to be adjusted before proceeding with install stage, in particular user have to provide credentials (or specify where to find them) to let SubGit access Subversion repository. config file generated by default will look like this (some of the less frequently used options are not shown here):</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">[core]
+    authorsFile = subgit/authors.txt
+    pathEncoding = UTF-8
+    defaultDomain = tmatesoft.com
+
+[svn]
+    url = http://svn.svnkit.com/repos/sqljet
+
+    trunk = trunk:refs/heads/master
+    branches = branches/*:refs/heads/*
+    tags = tags/*:refs/tags/*
+    shelves = shelves/*:refs/shelves/*
+
+    fetchInterval = 60
+    connectTimeout = 30
+    readTimeout = 60
+
+    auth = default
+
+[auth &quot;default&quot;]
+    passwords = subgit/passwd
+    useDefaultSubversionConfigurationDirectory = false
+    subversionConfigurationDirectory = /home/user/subversion
+</code></pre></div>
+<blockquote>
+<p><strong>Paths in subgit/config file:</strong><br>
+File system paths in subgit/config file could be specified in relative or absolute form. Relative paths are those that do not start with &#39;/&#39; or drive letter on Windows OS. Relative paths are treated as relative to the Git repository root directory.</p>
+</blockquote>
+
+<p><a href="#up"></a></p>
+
+</div>
+<div class="wrapper" id="12">
+<h3>5.4. Adjust configuration: provide authors mapping</h3>
+
+<p>Write Subversion users to Git authors mapping to conf/authors.txt file (see Section 3.3, “Authors Mapping”). For instance:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">conf/authors.txt:
+semen = Semen Vadishev &lt;vadishev@tmatesoft.com&gt;
+dmitry = Dmitry Pavlenko &lt;pavlenko@tmatesoft.com&gt;
+</code></pre></div>
+<p><strong>Or specify existing authors mapping file:</strong></p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">[core]
+...
+authorsFile = /var/git/company-authors-mapping.txt
+</code></pre></div>
+<p>Specify path to the authors mapping file (see Section 3.3) as core.authorsFile option value. Path is either relative to the Subversion repository root (e.g. conf/authors.txt expands to SVN_REPOS/conf/authors.txt) or absolute.</p>
+
+<p><strong>Provide default domain for missing emails:</strong></p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">[core]
+...
+defaultDomain = company.com
+</code></pre></div>
+<p>Email has to be part of the Git author information and some of Git operations may fail when email is not present. SubGit will use core.defaultDomain value to generate author&#39;s email when author is not found in the authors mapping or in case authors mapping doesn&#39;t provide email.</p>
+
+<p>Tip: Add author mappings for as many of you team members as possible, even if they don&#39;t use Git as the log history will be more consistent.</p>
+
+<p><a href="#up"></a></p>
+
+</div>
+<div class="wrapper" id="13">
+<h3>5.5. Adjust configuration: path encoding</h3>
+<div class="highlight"><pre><code class="language-text" data-lang="text">[core]
+...
+pathEncoding = UTF-8
+</code></pre></div>
+<p>Git stores paths as a sequence of bytes, without encoding specified. Usually paths ends up in Git as-is, i.e. in the local file system encoding. Use git.pathEncoding option to specify encoding to use when translating string path found in Subversion repository to Git. Most modern file systems use or could be configured to use UTF-8 encoding and this is default and recommended value.</p>
+
+</div>
+<div class="wrapper" id="14">
+<h3>5.6. Adjust configuration: branches mapping</h3>
+<div class="highlight"><pre><code class="language-text" data-lang="text">[svn]
+...
+url = http://host/svn/repos
+</code></pre></div>
+<p>svn.url option value specifies project location. It is used as the root URL relative to which mappings paths are treated.</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">[svn]
+...
+trunk = trunk:refs/heads/master
+branches = branches/*:refs/heads/*
+tags = tags/*:refs/tags/*
+shelves = shelves/*:refs/shelves/*
+</code></pre></div>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text">[svn]
+...
+trunk = trunk:refs/heads/master 主干匹配：SVN主干唯一匹配Git的heads/Master
+branches = branches/*:refs/heads/* 分支匹配
+tags = tags/*:refs/tags/* 标签匹配
+shelves = shelves/*:refs/shelves/*
+</code></pre></div>
+
+<p>There are four kinds of branches that have to be mapped, each represented by its own option: <em>trunk</em>, <em>branches</em>, <em>tags</em> and <em>shelves</em>. Each option establishes SVN_PATH to GIT_REFERENCE correspondence for a particular kind of entity. Mapping syntax for <em>trunk</em> is:</p>
+<p>SubGit会匹配4中类型的分支: <em>主干（trunk）</em>, <em>分支（branches）</em>, <em>标签（tags）</em> and <em>shelves</em>. 按照不同分支类型，为每一个分支实体，创建从SVN分支路径到Git分支路径的匹配  <em>trunk（主干）</em> :</p>
+
+<div class="highlight"><pre><code class="language-text" data-lang="text">trunk = SVN_PATH:GIT_REFERENCE
+</code></pre></div>
+<p>svn.trunk option allows to specify single SVN_PATH:GI_REFERENCE mapping as its value. SVN_PATH is a path relative to the project svn.url location and GIT_REFERENCE is a git reference e.g. refs/heads/master. Mapping meaning is that changes made on or below SVN_PATH in Subversion project translated to the Git commits on GIT_REFERENCE and conversely, commits on GIT_REFERENCE would be translated to the changes below SVN_PATH. Mapping syntax for <strong>branches</strong>, <strong>tags</strong> and <strong>shelves</strong> is:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">branches = SVN_PATH[/*]:GIT_REFERENCE[/*][;MAPPING]
+</code></pre></div>
+<p>These option allows to specify multiple mappings and each mapping may define many-to-many relationship. Mapping could be either one-to-one or many-to-many, in other words when &#39;*&#39; wildcard is used it should be present in the both sides of mapping. Each of the options must contain at least one many-to-many mapping (one with &#39;*&#39; wildcard). For example:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">branches = branches/*:refs/heads/*;release_branhces/b1:refs/release/b1
+</code></pre></div>
+<p>Above mapping maps all branches in Subversion branches directory to the Git refs/heads namespace and, additionally, maps single release_branches/b1 branch to refs/releases/b1 Git branch reference.</p>
+
+<p>Be careful when specifying mapping, it would not be possible to adjust it when synchronization is enabled. Only branches and tags that are included in the mapping will be imported and kept in sync by SubGit.</p>
+
+<p><a href="#up"></a></p>
+
+</div>
+<div class="wrapper" id="15">
+<h3>5.7. Adjust configuration: credentials</h3>
+
+<p>In order to create new revision in Subversion repository, SubGit needs credentials to authorize itself with Subversion server. SubGit user may provide multiple sets of credentials (username/password pairs) so that SubGit could choose with username to authorize with when creating new revision. There are a few sources SubGit looks for credentials:</p>
+
+<p><strong>GIT_REPOS/subgit/passwd file:</strong> SubGit looks into GIT_REPOS/subgit/passwd file to read username/password pairs. Passwords are expected to be plaintext. It is a good idea to limit file read access for this file to the user account that runs SubGit.</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">username password
+username1 secret
+...
+usernameN anothersecret
+</code></pre></div>
+<p>Path to the GIT_REPOS/subgit/passwd file could be changed in SubGit configuration file:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">[auth &quot;default&quot;]
+...
+passwords = subgit/passwd
+</code></pre></div>
+<p><strong>SubGit configuration file:</strong> SSH and SSL client credentials could be defined explicitly in subgit/config configuration file:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">[auth &quot;default&quot;]
+...
+sshKeyFile = /home/user/ssh-private-key.openssh
+sshKeyFilePassphrase = secret
+
+sslClientCertFile = /home/user/ssl-client-cert.p12
+sslClientCertPassphrase = secret
+</code></pre></div>
+<p><strong>Local Subversion credentials cache:</strong> To make SubGit look for credentials in the local Subversion credentials cache, set auth.useDefaultSubversionConfigurationDirectory option to true and ensure that Subversion credentials cache path is correct:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">[auth &quot;default&quot;]
+...
+useDefaultSubversionConfigurationDirectory = true
+subversionConfigurationDirectory = /home/user/.subversion
+</code></pre></div>
+<blockquote>
+<p><strong>HTTP Proxy Configuration</strong><br>
+In case Subversion repository access requires proxy to be configured, then auth.useDefaultSubversionConfigurationDirectory must be set to true and proxy settings should be defined in Subversion servers file.</p>
+</blockquote>
+
+<p><a href="#up"></a></p>
+
+</div>
+<div class="wrapper" id="16">
+<h3>5.8. Credentials and Subversion pre-revprop-change hook</h3>
+
+<p>To create new Subversion revision, SubGit has to authroize with Subversion server. In order to do this, SubGit follows the following algorithm:</p>
+
+<ul>
+<li>Git commit author is matched to Subversion author name (AUTHOR)</li>
+<li>All configured credentials sources are iterated to find AUTHOR&#39;s credentials</li>
+<li>In case matching credentials found, SubGit uses them for authorization</li>
+<li>In case no matching credentials has been found, SubGit uses any of the available</li>
+<li>As soon as new revision is committed, SubGit sets its svn:author revision property to AUTHOR</li>
+</ul>
+
+<p>The most secure way to configure SubGit credentials is to provide single set of credentials (either explicitly in subgit/passwd file or implicitly by specifying local Subversion configuration path). However, use of Subversion revision properties feature requires pre-revprop-change hook to be enabled in Subversion repository. Add empty hook script with 0 exit code to enable revision properties:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">SVN_REPOSITORY/
+    hooks/
+        pre-revprop-change     # for Linux and OS X
+        pre-revprop-change.bat # for Windows
+</code></pre></div>
+<p>Hook file contents might be as simple as:</p>
+
+<p><strong>Linux and OS X:</strong></p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">#!/bin/sh
+exit 0;
+</code></pre></div>
+<p><strong>Windows:</strong></p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">@echo off
+exit 0
+</code></pre></div>
+<p>Installing hooks to Subversion repository requires direct shell access to Subversion repository server. This might not always be available and in that case SubGit might fail to set proper author or date for a newly created Subversion revisions.</p>
+
+<p><a href="#up"></a></p>
+
+</div>
+<div class="wrapper" id="17">
+<h3>5.9. Adjust configuration: other options</h3>
+<div class="highlight"><pre><code class="language-text" data-lang="text">[svn]
+...
+minimalRevision = 1024
+</code></pre></div>
+<p>Set svn.minimalRevision to Subversion revision from which translation should be started. Revisions older than specified would not be translated and would not be present in the Git repository. Limiting range of revisions with this option may reduce initial translation time.</p>
+
+<p>One will find more options in the subgit/config file, as well as documentation on what these options control.</p>
+
+</div>
+<div class="wrapper" id="18">
+<h3>5.10. Run subgit install</h3>
+
+<p>Run SubGit install command to make SubGit perform initial translation from Subversion to Git and to enable synchronization.install command uses configuration previously generated by configure command. Sample Subgit install command output is shown below:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ subgit install repository.git
+SubGit version 2.0.0 (&#39;Patrick&#39;) build #2552
+
+Translating Subversion revisions to Git commits...
+
+    Subversion revisions translated: 20.
+    Total time: 10 seconds.
+
+INSTALLATION SUCCESSFUL
+</code></pre></div>
+<p>Initial translation may take a while, during translation time Git repository remains readable, but pushes are disabled for the time of initial import. User could interrupt initial translation with Ctrl-C and resume it later by running subgit install GIT_REPOS</p>
+
+<p>SubGit install command enables synchronization by installing hooks into Git repository. Existing Git pre-receive and post-receive hooks (if there were any) are preserved and executed normally.</p>
+
+<p><strong>Figure 5.2. Repository after <em>install</em> command is completed</strong></p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">GIT_REPOS/
+  branches/
+  hooks/
+    pre-receive               # SubGit hook, do not edit or remove
+    user-pre-receive.sample   # user&#39;s pre-receive hook template
+    post-receive              # SubGit hook, do not edit or remove
+    user-post-receive.sample  # user&#39;s post-receive hook template
+  logs/
+  objects/
+  refs/
+  svn/
+  subgit/
+  config
+  HEAD
+</code></pre></div>
+<p>As soon as install command reports successful termination, Git users may start to push to the Git repository - new commits will be translated to the new Subversion repository revisions and vice versa - new Subversion revisions will be translated to the new Git commits.</p>
+
+<p><a href="#up"></a></p>
+
+</div>
+<div class="wrapper" id="19">
+<h3>5.11. Background translation process</h3>
+
+<p>Upon installation completion, SubGit launches background process that periodically polls Subversion repository. Whenever new revisions are found, they are translated to Git commits. This way Git repository remains up-to-date most of the time. This background process is optional and could be killed. When background process is not running, new Subversion revisions will be translated to Git commits on Git user push as part of the pre-receive hook processing. Unless disabled in configuration file, user&#39;s push will restart background translation process.</p>
+
+<p>Options that affect SubGit background process could be set in GIT_REPOS/subgit/config configuration file:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">[svn]
+...
+fetchInterval = 60      # check for new revisions every 60 seconds
+...
+[daemon]
+...
+idleTimeout = infinity  # backgroud process never exits
+</code></pre></div>
+<p>Background translation process might be disabled by setting daemon.idleTimeout option value to 0. In this case translation process will exit immediately after push is completed:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">[daemon]
+...
+idleTimeout = 0  # backgroud process disabled
+</code></pre></div>
+<p>To force translation of the outstanding Subversion revisions, user may use subgit fetch command:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ subgit fetch [--async] GIT_REPOS_PATH
+</code></pre></div>
+<p>Alternatively invoke a no-op push from a remote working tree:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ git push origin +:refs/heads/bogus_branch
+</code></pre></div>
+<p>Above command will attempt to delete non-existing remote branch and as a side effect will force SubGit to synchronize Git and Subversion repositories.</p>
+
+<p>To stop background process gracefully use shutdown command:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ subgit shutdown repository.git
+SubGit version 2.0.0 (&#39;Patrick&#39;) build #7777
+
+About to shut down background translation process.
+Shutdown request sent to background translation process (pid 4404).
+Background translation process has received shutdown request and will exit NOW.
+
+SHUTDOWN SUCCESSFUL
+</code></pre></div>
+<p><a href="#up"></a></p>
+
+</div>
+<div class="wrapper" id="20">
+<h3>5.12. Recommended client-side Git configuration</h3>
+
+<p>Git users will clone Git repository on the server side to start working with the project locally. There are number of configuration options that is recommended to add to the clone&#39;s .git/config configuration file. These options are not required, but merely recommended for better user experience.</p>
+
+<p><strong>Fetch SubGit mapping information:</strong></p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">[remote &quot;origin&quot;]
+...
+fetch = +refs/svn/map:refs/notes/commits
+</code></pre></div>
+<p>refs/notes/commmits reference points to the so called notes that contains Subversion to Git mapping information for each commit. Note that this fetch line should be added as a new line and not appended to any existing fetch lines. With these notes fetched, git log command will show mapping information alongside with the commit message in the log output:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ git log
+commit bee5c8ae9bd8b2077f1acaedc9982ab4bd84d91b
+Author: Alexander Kitaev &lt;kitaev@tmatesoft.com&gt;
+Date:   Thu Sep 6 18:58:01 2012 +0200
+
+    Ugly bug fixed
+
+Notes:
+    r1 trunk
+</code></pre></div>
+<p><strong>Fetch all tags:</strong></p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">[remote &quot;origin&quot;]
+...
+tagopts = &#39;--tags&#39;
+</code></pre></div>
+<p>--tags option will force Git to fetch all tags, even those unreachable from the current branch. These may be convenient in case user would like to see or check out tag set on the other branch.</p>
+
+<p><a href="#up"></a></p>
+
+</div>
+<div class="wrapper" id="21">
+<h2>Chapter 6. Changing SubGit Configuration</h2>
+
+</div>
+<div class="wrapper" id="22">
+<h3>6.1. Writing Hooks</h3>
+
+<p>In order to enable synchronization of Subversion and Git repositories, SubGit installs hooks into Git repository. These hooks are:</p>
+
+<ul>
+<li>Git pre-receive hook</li>
+<li>Git post-receive hook</li>
+</ul>
+
+<p>Presence of these hooks is crucial for SubGit to function properly, and users should never modify or remove these hook scripts. If necessary, above hooks functionality should be placed into user-* scripts that would be called by SubGit at appropriate moments. SubGit install command takes care of already existing hooks and automatically places their contents into the corresponding user-* script files (see Figure 5.2, “Repository after install command is completed”).</p>
+
+<p>Table below shows correspondence between standard hook scripts file names and file names that should be used to put hook functionality into after SubGit is installed. Hooks parameters and return code processing rules are not affected by SubGit. Hooks that are not listed in the table are not used by SubGit and their standard file names are not changed.</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">standard hook name             hook name after SubGit is installed
+
+pre-receive                    user-pre-receive
+post-receive                   user-post-receive
+</code></pre></div>
+<p>On Windows OS .cmd or .bat extension should be added to Subversion hook file names.</p>
+
+<p><a href="#up"></a></p>
+
+</div>
+<div class="wrapper" id="23">
+<h3>6.2. Applying configuration changes</h3>
+
+<p>SubGit configuration could be changed after SubGit is installed into repository. Some of the changes become effective immediately and others require <em>subgit install</em> or <em>subgit install --rebuild</em> command to be executed in order for the changes to be applied.</p>
+
+<p><strong>Changes that become effective immediately:</strong></p>
+
+<ul>
+<li>Modification of the authors mapping file (subgit/authors.txt)</li>
+<li>Modification of the password credentials file (subgit/passwd)</li>
+<li>Modification or creation of the user-* hook scripts</li>
+</ul>
+
+<p><strong>Changes that become effective after &#39;subgit install&#39; is run:</strong></p>
+
+<ul>
+<li>Modification of the core.authorsFile option in the subgit/config file</li>
+<li>Modification of the svn.fetchInterval option option in the subgit/config file</li>
+<li>Modification of the [auth] section options in the subgit/config file</li>
+</ul>
+
+<p><em>subgit install</em> command will validate changes made to the subgit/config file and will apply these changes. Background translation process will be restarted if needed.</p>
+
+<p><strong>Other configuration changes:</strong> In case more changes have to be made, in particular, changes to the branches mapping in subgit/config file, then the easiest way would be to reinstall SubGit following standard configuration stages (see Section 5.1, “Installation Stages”). It is not possible to update branches mapping for a Git repository where SubGit is already installed. To stop background translation process, run <em>subgit uninstall</em> command on a Git repository.</p>
+
+<p><a href="#up"></a></p>
+
+</div>
+<div class="wrapper" id="24">
+<h2>Chapter 7. Uninstalling SubGit</h2>
+
+<p>Run <em>subgit uninstall</em> command to disable synchronization or to uninstall SubGit completely.</p>
+
+<p>Being run without options <em>uninstall</em> command removes SubGit hooks thus disabling translation:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ subgit uninstall repository.git
+SubGit version 2.0.0 (&#39;Patrick&#39;) build #7777
+
+About to shut down background translation process.
+Shutdown request sent to background translation process (pid 4900).
+Background translation process has received shutdown request and will exit NOW.
+
+SHUTDOWN SUCCESSFUL
+
+SubGit hooks have been removed from Git repository:
+    /var/git/repository.git
+
+Subversion and Git are no longer kept in sync.
+</code></pre></div>
+<p>Until Subversion and Git histories diverge, you may run SubGit <em>subgit install</em> to enable synchronization back.</p>
+
+<p>Run <em>subgit uninstall</em> command with the <em>--purge</em> option to remove SubGit completely. This command will remove:</p>
+
+<ul>
+<li>SubGit binaries and log files</li>
+<li>SubGit metadata</li>
+</ul>
+
+<p><a href="#up"></a></p>
+
+</div>
+<div class="wrapper" id="25">
+<h2>Chapter 8. Registering SubGit</h2>
+
+<p>You may use SubGit for evaluation purposes without a registration as long as you like. During that evaluation period SubGit will remind you on a necessity of registration with the help of post commit and post receive messages. <strong>Registration is required for production use.</strong></p>
+
+<p><strong>Obtain registration key:</strong></p>
+
+<p>SubGit registration key is a file with a contents like:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">Purchase ID: CM-123456
+Name: Company &lt;company@email.com&gt;
+Committers per repository: 10
+Repositories: 10
+Supported versions: 1.*.*
+
+pjCssAR6cT4F3MnEDb0qKiEcb15UWlPBQwvrZCMlBmbihHrXVnZ2MyJKsUT
+...
+sSPIOdt1sz1@6d6PXEzybYJq1DOaZfXWzogM3jpB4M1hBA1LRJBbOE1qVWH
+</code></pre></div>
+<p>Registration key could be obtained at SubGit <a href="http://subgit.com/register">registration page</a>. Key file will be send to you by email.</p>
+
+<p><strong>Upload key:</strong></p>
+
+<p>Upload key you have received to the server where your Git repository is located. You may upload the file, or copy and paste key file contents to the file on the server side.</p>
+
+<p><strong>Register SubGit:</strong></p>
+
+<p>Run subgit register command to register repository. This command have to be ran on behalf of the user who has write access to the /etc directory on Linux or OS X or to the system APP_DATA directory on Windows. This usually would be root user on Linux and OS X and user with Administrator privileges on Windows.</p>
+
+<p>Unless key file location is specified on the command line with the --key option, SubGit looks for the key file at the following locations:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">GIT_REPOSITORY/subgit/subgit.key
+USER_HOME/.subgit/subgit.key
+</code></pre></div>
+<p>SubGit register command provides some information on the key limits and on how many repositories could be registered with it:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">$ sudo subgit register --key subgit.key repository.git
+SubGit version 2.0.0 (&#39;Patrick&#39;) build #7777
+
+Registration information:
+
+    Registered for:       Company &lt;company@email.com&gt;
+    Purchase ID:          CM-123456
+    Committers Limit:     10
+
+    This key has been used to register 1 repository;
+    You may use this key to register 9 more repositories (out of 10).
+
+REGISTRATION SUCCESSFUL
+</code></pre></div>
+<p>On UNIX-like operating systems: In order for subgit to inherit the correct java environment you may need to run the sudo with the -E option. See man sudo for details.</p>
+
+<p><a href="#up"></a></p>
+
+</div>
+<div class="wrapper" id="26">
+<h2>Chapter 9. Translation Limitations</h2>
+
+<p>Subversion and Git version control systems solves the same problem, that is why Subversion and Git repositories synchronization is possible. However, Subversion and Git implementation differs and that is why there are number of entities in both VCS worlds that are not translated. Still these entities are fully functional for that VCS users, for instance while empty directories are not translated from Subversion to Git, Subversion users may use them and create as many as they would like.</p>
+
+<p>The following entities are not translated from <strong>Subversion to Git</strong>:</p>
+
+<ul>
+<li>Arbitrary user defined properties</li>
+<li>Revision properties</li>
+<li>svn:externals properties</li>
+<li>Empty directories</li>
+<li>File locks</li>
+<li>Merge tracking information for cherry-pick merges</li>
+<li>Subversion path-based authentication is not taken into account for Git users</li>
+</ul>
+
+<p>The following entities are not translated from <strong>Git to Subversion</strong>:</p>
+
+<ul>
+<li>Git submodules</li>
+<li>Git notes</li>
+<li>Irrelevant file attributes</li>
+</ul>
+
+<p>Future versions of SubGit will remove some of the above limitations.</p>
+
+<p><a href="#up"></a></p>
+
+</div>
+<div class="wrapper" id="27">
+<h2>Chapter 10. Backup</h2>
+
+<p>SubGit as of version 2.0 does not provide integrated backup solution. Standard Git tools should be used to back up repositories.</p>
+
+<p><strong>Backup Git Repository:</strong></p>
+
+<p>First, disable Git pushes and then disable SubGit synchronization (single Git repository is assumed):</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"># make user-pre-receive hook reject all pushes:
+$ cp /var/git/repos.git/hooks/user-pre-receive /var/git/repos.git/hooks/user-pre-receive.backup
+$ echo &#39;#!/bin/sh\nexit 1&#39; &gt; /var/svn/repos/.git/hooks/user-pre-receive
+
+# disable synchronization
+$ subgit uninstall /var/git/repos.git
+</code></pre></div>
+<p><em>uninstall</em> command will wait for ungoing translation to complete and will then shutdown background translation process. Marke sure that it is not running by running jps command and checking that there is no Java process named SubGitDaemon. Then, back up everything, reinstall SubGit and enable synchronization and Git pushes back:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text"># back up all data
+$ copy -R /var/git/repos.git repos.git.backup
+
+# enable synchronization
+$ subgit install /var/git/repos.git
+
+# make user-pre-receive hook no longer reject pushes
+$ rm /var/git/repos.git/hooks/user-pre-receive
+$ cp /var/git/repos.git/hooks/user-pre-receive.backup /var/git/repos.git/hooks/user-pre-receive
+</code></pre></div>
+<p><a href="#up"></a></p>
+
+</div>
+<div class="wrapper" id="28">
+<h2>Chapter 11. System Requirements</h2>
+
+<p>SubGit will run on the most modern systems. Requirements for the server are:</p>
+<div class="highlight"><pre><code class="language-text" data-lang="text">Windows XP or newer, Linux or OS X
+Oracle Java 1.5 or newer
+At least 256Mb*K of memory available, where K is the number of Subversion repositories.
+</code></pre></div>
+<p>SubGit 2.0 uses native pre-compiled executables for hook script, so that there is no overhead on starting JVM for each push (assuming background process is already running). Some of the more exotic systems might not be able to execute pre-compiled binaries, then SubGit falls back to the Java-based hooks. In this case memory requirement is increased by N*32Mb where N is maximum number of concurrent pushes.</p>
+
+<p>Memory available consists of physical memory and swap, so memory requirement gives an idea of how much memory might be allocated by SubGit at peak time, it does not mean that server must have that much physical memory installed.</p>
+
+<p><a href="#up"></a></p>
+
+</div>
+<div class="wrapper" id="29">
+<h2>Chapter 12. Installing SubGit Tool</h2>
+
+<p>Before installing SubGit into Subversion repository, subgit tool itself has to be installed on your server. Make sure your server meets SubGit system requirements (see Chapter 11) and follow instructions below on how to install SubGit tool.</p>
+
+<p><strong>On Debian-based or Ubuntu OS:</strong></p>
+
+<ul>
+<li>Download SubGit <strong>debian package</strong> file from SubGit <a href="subgit.com/newsite/download.html">download page</a>;</li>
+<li>Run <em>sudo dpkg -i subgit.deb</em> to install SubGit;</li>
+<li>Run <em>sudo apt-get install -f</em> to install missing dependencies, if there are any.</li>
+</ul>
+
+<p>Now you may run subgit command from the command line. Test it by running subgit --version command. To upgrade SubGit tool, repeat above steps with the newer debian package file.</p>
+
+<p><strong>On Linux and OS X:</strong></p>
+
+<ul>
+<li>If necessary, download and install most recent version of the Java SE JDK from the Java <a href="http://www.oracle.com/technetwork/java/javase/downloads/index.html">download page</a>;</li>
+<li>Download SubGit <strong>zip archive</strong> file from SubGit <a href="subgit.com/newsite/download.html">download page</a>;</li>
+<li>Acting as the root user, unpack all files from SubGit archive into /opt/subgit/ directory;</li>
+<li>Append /opt/subgit/bin to the PATH variable, e.g. in the /etc/profile file.</li>
+</ul>
+
+<p>Now you may run subgit command from the command line. Test it by running subgit --version command. To upgrade SubGit tool, delete all files from the /opt/subgit directory and repeat above steps with the SubGit zip archive.</p>
+
+<p><strong>On Windows OS:</strong></p>
+
+<ul>
+<li>If necessary, download and install most recent version of the Java SE JDK from the Java <a href="http://www.oracle.com/technetwork/java/javase/downloads/index.html">download page</a>;</li>
+<li>Download SubGit <strong>zip archive</strong> file from SubGit <a href="subgit.com/newsite/download.html">download page</a>;</li>
+<li>Acting as Administrator user, unpack all files from SubGit archive into C:\Program Files\SubGit directory;</li>
+<li>Append C:\Program Files\SubGit\bin directory to the system PATH variable in the Control Panel.</li>
+</ul>
+
+<p>Now you may run subgit command from the command line. Test it by running subgit --version command. To upgrade SubGit tool, delete all files from the C:\Program Files\SubGit directory and repeat above steps with the SubGit zip archive.</p>
+
+<p><a href="#up"></a></p>
+
+</div>
+<div class="wrapper" id="30">
+<h2>Chapter 13. Useful Links and Contacts</h2>
+
+<p>Please feel free to contact us at <a href="mailto:support@subgit.com">support@subgit.com</a>. We&#39;d be glad to address issues you may have with SubGit or to provide more information on how one may get most out of SubGit. We appreciate your feedback!</p>
+
+<p>The following links would be of use if you would like to report an issue or to talk to SubGit developers on SubGit features:</p>
+
+<ul>
+<li>SubGit issues tracker: <a href="http://issues.tmatesoft.com/issues/SGT/">http://issues.tmatesoft.com/issues/SGT/</a></li>
+<li>SubGit mailing list: send email to <a href="mailto:subgit-users-subscribe@subgit.com">subgit-users-subscribe@subgit.com</a> to subscribe</li>
+</ul>
+
+<p>Follow <a href="https://twitter.com/subgit">@subgit</a> twitter account or <a href="https://plus.google.com/b/114128677298030695536/114128677298030695536/posts">SubGit page on Google+</a> to stay up-to-date with SubGit development.</p>
+
+</div>
+
+
+		</div>
+<div id="footer">
+	<div class="wrapper">
+		<div id="footer_logo"></div>
+		<div id="footer_middle">
+			<div id="footer_email"><a href="mailto:support@subgit.com">support@subgit.com</a></div>
+			<div class="clear"></div>
+			<div id="footer_copyright">
+				<p>Copyright © 2012-2015 TMate Software</p>
+				<p>Subversion and Git are names of Open Source version control system, which are developed independently. TMate Software and the website subgit.com are independent of Subversion and Git developers, and have no relationship, formal or informal.</p>
+			</div>
+		</div>
+		<div id="footer_social">
+			<a href="http://stackoverflow.com/questions/tagged/subgit?sort=votes&amp;pageSize=50" id="footer_stack">&nbsp;</a>
+			<a href="http://plus.google.com/+Subgit" id="footer_gplus">&nbsp;</a>
+			<a href="http://twitter.com/subgit" id="footer_twitter">&nbsp;</a>
+			<a id="up" href="#up"></a>
+		</div>
+	</div>
+	<div class="clear"></div>
+</div>
+
+	</div>
+</body>
+
+<!-- Mirrored from www.subgit.com/remote-book.html by HTTrack Website Copier/3.x [XR&CO'2013], Fri, 16 Jan 2015 16:15:40 GMT -->
+</html>
