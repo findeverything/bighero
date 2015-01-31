@@ -304,12 +304,15 @@
 <li>Subversion users are mapped to the Git committers</li>
 </ul>
 <ul>
-<li>Subversion project location within Subversion repository</li>
-<li>SVN的分支和变迁，匹配到Git的分支和标签</li>
-<li>SVN的用户，匹配到Git的Committer</li>
+<li>SVN仓库中，项目的URL</li>
+<li>SVN的分支标签和Git的分支标签的匹配</li>
+<li>SVN的用户和Git的用户的匹配</li>
 </ul>
 
 <p>Above mappings are static and configured within Git repository once before translation and synchronization is started. All mappings and other information is stored in configuration files located in the GIT_REPOS/subgit directory. Following sections describe these mappings in more details.</p>
+
+<p>上述SubGit配置，都是静态的，需要在SVN仓库迁移和同步前配置完成。配置信息保存在GIT_REPOS/subgit目录中。后面的章节会详细说明配置文件。</p>
+
 
 <blockquote>
 <p><strong>Note:</strong><br>
@@ -318,7 +321,7 @@ Subversion is a very powerful system and sets mostly no limits on the repository
 
 <blockquote>
 <p><strong>注意:</strong><br>
-SVN本身就是一个强大的VCS系统，同时对仓库中的项目几乎是没有任何的目录结构要求。</p>
+SVN本身就是一个强大的VCS系统，对项目的目录结构，几乎是没有任何要求</p>
 </blockquote>
 
 </div>
@@ -327,19 +330,19 @@ SVN本身就是一个强大的VCS系统，同时对仓库中的项目几乎是�
 
 <p>Subversion repository may contain one or more projects. Project is a location (folder) in Subversion repository which follows Subversion recommended repository layout, i.e. project folder has <em>trunk</em>, <em>branches</em> and <em>tags</em> subfolders:</p>
 
-<p>一个SVN仓库可能包含一个或者多个项目。在SVN仓库中，一个项目就是可以看作就是一个目录，并且遵循SVN推荐的标准目录结构，例如： <em>trunk：主干</em>, <em>branches：分支</em> 和 <em>标签</em> subfolders:</p>
+<p>一个SVN仓库可能包含多个项目。在SVN仓库中，一个项目被看作就是一个目录，同时遵循SVN推荐的标准目录结构 <em>主干（trunk）</em>, <em>分支（branches/branch）</em> 和 <em>标签（tags/tag）</em> subfolders:</p>
 
 
 <div class="highlight"><pre><code class="language-text" data-lang="text">/project
     /trunk    # 项目&#39;s &quot;主线&quot;
-    /branches # contains project feature and version branches, copied from trunk or other branches
-    /tags     # 包含项目标签 (标签实际是主干或者分支的一个快照)
+    /branches # 包括项目按照功能或者版本划分的分支，分支从主干或者其他分支创建
+    /tags     # 标签 (标签实际是主干或者分支的一个快照)
 </code></pre></div>
 <p>It is not necessary for <em>trunk</em>, <em>branches</em> and <em>tags</em> folders to have these exact names, but the roles of these folders are important. Each project could be mapped to a bare Git repository as shown in Figure 3.1 and Figure 3.3 along with the corresponding parts of SubGit configuration file.</p>
-<p><em>主干</em>, <em>分支</em> 和<em>标签</em> 目录，并不是说必须叫Trunk，Branches，Tags。但是这些目录所具有的功能非常重要，是不能改变的。如图：3.1和图3.3所示，每一个SVN项目都能够匹配到一个空的Git仓库，并且有一个1对1的配置</p>
+<p><em>主干（trunk）</em>, <em>分支（branches）</em> 和<em>标签（tags）</em>，并不是说必须叫Trunk，Branches，Tags。但是这些目录代表功能是不能改变的。如图：3.1和图3.3所示，一个SVN项目匹配一个空的Git仓库，并且包含与之对应的SubGit配置</p>
 
 <p><strong>Figure 3.1. Single Project Repository Mapping</strong>
-<p><strong>Figure 3.1. 单一项目仓库匹配</strong>
+<p><strong>Figure 3.1. 只包含一项目的SVN仓库</strong>
 <img src="img/remotebook/remote-single.png" alt="Single Project Repository Mapping"></p>
 
 <p><strong>Figure 3.2. SubGit configuration file (single project mapping)</strong></p>
@@ -350,15 +353,15 @@ SVN本身就是一个强大的VCS系统，同时对仓库中的项目几乎是�
 url = http://host/svn/repos
 </code></pre></div>
 <p><strong>Figure 3.3. Multiple Projects Repository Mapping</strong>
-<p><strong>Figure 3.3. 多项目仓库匹配</strong>
+<p><strong>Figure 3.3. 包含多个项目的SVN仓库</strong>
 <img src="img/remotebook/remote-multi.png" alt="Multiple Projects Repository Mapping"></p>
 
 <p><strong>Figure 3.4. SubGit configuration file (two projects mapping)</strong></p>
-<p><strong>Figure 3.4. SubGit 配置文件 (SVN仓库中包含两个项目)</strong></p>
+<p><strong>Figure 3.4. SubGit 配置文件 (SVN仓库中包含多个项目)</strong></p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">/var/git/project1.git/subgit/config
 
     [svn]
-    # project location within Subversion repository
+    # SVN仓库路径，需要指定到SVN项目的根目录 
     url = http://host/svn/repos/project1
     ...
 
@@ -376,7 +379,7 @@ url = http://host/svn/repos
 <h3>3.2. 分支和标签的匹配</h3>
 
 <p>For each project mapped to a Git repository, branches and tags are mapped to the corresponding references in the Git repository. SubGit distinguishes the following folders in Subversion project as branches or tags:</p>
-<p>每一个SVN项目匹配到一个Git仓库中，分支和标签分别匹配到Git仓库中的引用（references）。SubGit按照下列SVN目录规则，匹配SVN的分支和标签</p>
+<p>SVN项目匹配到Git仓库，分支和标签分别匹配到Git仓库中的引用（references）。SubGit按照下列SVN目录规则，匹配SVN的分支和标签</p>
 
 <ul>
 <li>主干（trunk） 目录</li>
@@ -388,14 +391,17 @@ url = http://host/svn/repos
 <p>Shelves are special kind of branches used by SubGit to represent Git anonymous branches in Subversion repository.</p>
 
 <p>Each folder is mapped to the reference (branch or tag) in the Git repository. For trunk folder the mapping is one-to-one as there could be only one trunk folder (as well as only one master reference in Git) and for other folders wildcard mapping is used. Default mapping and corresponding SubGit configuration file part is shown in Figure 3.5 and Figure 3.6.</p>
-<p>每个目录被匹配到Git仓库中的引用（reference）。对主干（trunk）来说，只能匹配到master</p>
+<p>每个目录被匹配到Git仓库中的引用（reference）。但是主干（trunk），默认匹配到master</p>
 
 <p>Whenever project uses standard folder names (i.e. trunk, branches and tags), SubGit would automatically detect and configure mapping for that project. Otherwise configuration would have to be manually adjusted to include proper paths and references names.</p>
+
+<p>只要SVN项目的目录结构，遵守SVN的标准目录结构，SubGit会自动检查并且配置匹配规则。否则必须修改SubGit的配置文件(subgit/config)。</p>
 
 <p><strong>Figure 3.5. Default Branches and Tags Mapping</strong>
 <img src="img/remotebook/mapping.png" alt="Default Branches and Tags Mapping"></p>
 
 <p><strong>Figure 3.6. SubGit configuration file (default branches and tags mapping)</strong></p>
+<p><strong>Figure 3.6. SubGit 配置文件 (标准SVN目录结构)</strong></p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">[svn]
 url = http://host/svn/repos/project1
 
@@ -403,19 +409,19 @@ url = http://host/svn/repos/project1
 # branchKind=Subversion-Path-Pattern:Git-Reference-Pattern
 
 trunk = trunk:refs/heads/master
-branches = branches/*:refs/heads/*
+branches = branches/*:refs/heads/* 
 shelves = shelves/*:refs/shelves/*
 tags = tags/*:refs/tags/*
 </code></pre></div>
 
 <div class="highlight"><pre><code class="language-text" data-lang="text">[svn]
-url = http://host/svn/repos/project1
+url = http://host/svn/repos/project1 /* project1的SVN URL
 
 # 分支和标签的匹配模式：
 # branchKind=Subversion-Path-Pattern:Git-Reference-Pattern
 
 trunk = trunk:refs/heads/master
-branches = branches/*:refs/heads/* /* 匹配到Git的分支名称和SVN一致
+branches = branches/*:refs/heads/*     /* SubGit默认用SVN分支名作为Git的引用名（reference）
 shelves = shelves/*:refs/shelves/*
 tags = tags/*:refs/tags/*
 </code></pre></div>
