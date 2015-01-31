@@ -68,7 +68,7 @@
 
 
 			<div class="green_wrap">
-	<h1>SubGit镜像远程SVN仓库到本地</h1>
+	<h1>SubGit镜像远程SVN仓库到Git</h1>
 </div>
 <div id="booknav">
 	<ul>
@@ -88,7 +88,7 @@
 				</li>
 				<li class="subchapter">
 					<!--<a href="#4">3.1. Subversion Projects Location</a>-->
-					<a href="#4">3.1. Subversion 项目定位</a>
+					<a href="#4">3.1. SVN项目</a>
 				</li>
 				<li class="subchapter">
 					<!--<a href="#5">3.2. Branches and Tags mapping</a>-->
@@ -100,7 +100,7 @@
 				</li>
 				<li class="chapter">
 					<!--<a href="#7">4. One-time Import from Subversion to Git</a>-->
-					<a href="#7">4. 实现SVN到Git的一次导入</a>
+					<a href="#7">4. 通过导入（One-time Import）实现SVN到Git迁移</a>
 				</li>
 				<li class="chapter">
 					<!--<a href="#8">5. Creating Git Mirror of a Subversion Repository</a>-->
@@ -196,33 +196,37 @@
 <h2>Chapter 1. Overview</h2>
 
 <p>SubGit is a tool for bidirectional Subversion and Git repositories synchronization. SubGit is written in Java.</p>
-<p>SubGit 是一个同步SVN和Git仓库的工具，用java编写。</p>
+<p>SubGit 是一个用java编写，实现SVN和Git仓库上香同步的工具。</p>
 
 <p>For information on how to install SubGit into the <strong>local</strong> Subversion repository, refer to <a href="#">SubGit Local Book</a>. This book only covers the case when SubGit is used to create Git mirror of a remote Subversion repository.</p>
 
-<p>如何将SubGit安装在 <strong>SVN仓库中</strong>, 请参考 <a href="#">SubGit Local Book</a>. 这个文档只是针对一种情况，在本地路径中通过SubGit创建一个远程SVN仓库的Git镜像</p>
+<p>如何将SubGit安装在 <strong>SVN仓库中</strong>, 请参考 <a href="#">SubGit Local Book</a>. 此文档只是针对，在本地路径中通过SubGit创建一个远程SVN仓库的Git镜像</p>
 
 <p>Most commonly, SubGit user starts with Subversion repository being configured on the server. Access to Subversion repository is available over network (with HTTP(s), plain svn or svn over SSH protocols) and over the local file system. Correspondingly, users requests are handled by Apache Web Server, svnserve daemon or sshd daemon which invokes svnserve process. Figure 1.1 shows a generic outline of the described configuration.</p>
 
-<p>大部分情况，SubGit用户都是从一个配置在</p>
+<p>大部分情况，SubGit可以通过网络访问SVN远程仓库。用户发出请求，Apach Web服务器会处理这些这些请求。</p>
 
 <p><strong>Figure 1.1. Common Subversion Setup</strong>
 <img src="img/remotebook/start.png" alt="Common Subversion Setup"></p>
 
 <p>User creates Git repositories with SubGit and configures them so, that these repositories are kept in sync with the remote Subversion repository. Each Git repository mirrors one Subverion project (there could be multiple projects within a single Subversion repository). Changes pushed to the Git repository are instantly translated into Subversion project and vice versa - commits to Subversion project are reflected in the corresponding Git repository.</p>
 
+<p>通过SubGit创建Git仓库，同时Git仓库和SVN远程仓库保持实时的双向同步。每一个Git仓库是一个SVN项目的镜像。如果SVN仓库中有多个项目，那么就会创建多个Git镜像。Git仓库中发生的变更，立即会被同步到SVN中，与此同时，SVN中的变更也会被同步到Git仓库中。</p>
+
 <p>Optionally, user may enable revision properties on Subversion side by enabling pre-revprop-change hook in Subversion repository - this will let SubGit use single Subversion user account, but this modification is not required, so even Subversion repositories that you do not have shell access to could be mirrored with SubGit. Figure 1.2 shows typical SubGit set up that allows one to use both Subversion and Git and smoothes migration path.</p>
+
+<p>用户可以选择，在SVN端配置钩子程序pre-reprop-change,限制SubGit只能只能使用某一个固定的SVN账号。</p>
 
 <p>During mirror initialization stage, SubGit translates existing Subversion revisions into a newly created Git repository. There is also a way to skip mirroring and only use SubGit for one-time import from Subversion to Git.</p>
 
-<p>Git镜像初始化阶段，SubGit把SVN仓库中所有的Version全部转换到Git仓库中。同时，也可以跳过这一步，通过SubGit的One-time导入功能，将SVN的所有version全部倒入Git仓库中</p>
+<p>Git镜像初始化阶段，SubGit把SVN仓库中所有的版本（revision）全部转换到Git仓库中。当然，也可以跳过这一步，通过SubGit的导入功能（One-time import)导入，将SVN的所有version全部倒入Git仓库中。但是，除非在导入完成后，开启SVN和Git的双向同步功能，否则默认是不开启同步。</p>
 
 <p><strong>Figure 1.2. Git Mirror of a Remote Subversion Repository created with SubGit</strong>
 <p><strong>图 1.2. 通过SubGit创建一个远程SVN仓库的Git镜像</strong>
 <img src="img/remotebook/remote-subgit.png" alt="Git Mirror of a Remote Subversion Repository created with SubGit"></p>
 
 <p><strong>Chapter summary:</strong></p>
-<p><strong>本节概要：</strong></p>
+<p><strong>概要：</strong></p>
 
 <ul>
 <li>SubGit creates Git repository that mirrors project in a remote Subversion repositories</li>
@@ -231,9 +235,9 @@
 <li>SubGit grants users with a choice of whether to use Git or Subversion and smoothes migration path</li>
 <li>SubGit is implemented in Java and needs Java 1.5 or newer</li>
 <li></li>
-<li>Sub创建Git仓库，Git仓库镜像SVN远程仓库中的一个项目</li>
-<li>SubGit能够一次性的将所有SVN仓库中的Version全部导入到Git仓库</li>
-<li>无需要直接访问SVN仓库，SubGit可以自动同步SVN和Git仓库</li>
+<li>SubGit创建SVN远程仓库中项目（Project）级别的Git镜像</li>
+<li>SubGit通过导入(One-time import)功能，将SVN仓库的版本（revision）全部导入到Git仓库</li>
+<li>无需直接访问SVN仓库，SubGit能够实现Git仓库的中的变更，自动到SVN仓库</li>
 <li>SubGit grants users with a choice of whether to use Git or Subversion and smoothes migration path</li>
 <li>SubGit需要JAVA 1.5或者更高的版本支持</li>
 </ul>
@@ -245,20 +249,20 @@
 <h2>Chapter 2. SubGit 特点</h2>
 
 <p>Major SubGit benefits are</p>
-<p>主要优势</p>
+<p>主要优点</p>
 
 <ul>
 <li>Great translation and initial import performance (in comparison to git-svn)</li>
 <li>No limits are put on Svn and Git users (contrary to git-svn)</li>
 <li>Requires no shell access to Subversion repository (contrary to SubGit 1.0.x)</li>
 
-<li>强大的初始化转换和导入性能(in comparison to git-svn)</li>
-<li>SVN和Git用户，都没有任何的限制(contrary to git-svn)</li>
-<li>Requires no shell access to Subversion repository (contrary to SubGit 1.0.x)</li>
+<li>强大的版本（revision）转换和初始化导入性能</li>
+<li>SVN和Git用户，都没有任何的限制</li>
+<li>不需要额外访问SVN，SubGit自动完成同步</li>
 </ul>
 
 <p>SubGit includes powerful translation engine, which would translate</p>
-<p>SubGit拥有强大的SVN到Git的转换引擎，能够转换以下信息</p>
+<p>SubGit能够转换什么到Git仓库？</p>
 
 <ul>
 <li>merge tracking information and merge history</li>
@@ -270,7 +274,7 @@
 <li>commit authors and dates</li>
 <li>files and directories renames</li>
 
-<li>Merge跟踪信息以及Merge历史信息</li>
+<li>分支合并（Merge）跟踪信息以及历史</li>
 <li>non-linear Git commits history to Subversion</li>
 <li>SVN子项目，分支以及标签</li>
 <li>svn:ignore and .gitignore ignore definitions</li>
@@ -282,7 +286,7 @@
 
 <p>There are a few limitations on translation (see <a href="#chapter9">Chapter 9, Translation Limitations</a>). These limitations only affects translation, and do not prevent Git and Subversion from being used to their full extents.</p>
 
-<p>There are a few limitations on translation (see <a href="#chapter9">Chapter 9, Translation Limitations</a>). These limitations only affects translation, and do not prevent Git and Subversion from being used to their full extents.</p>
+<p>SubGit几乎可以将SVN的整个仓库完整地迁移到Git，但是还是有一些信息无法转换，(请参考 <a href="#chapter9">Chapter 9, Translation Limitations</a>). 这些限制只会影响SVN和Git之间的转换，但是不会对Git和SVN本身的使用有任何的限制。</p>
 
 <p><a href="#up"></a></p>
 
