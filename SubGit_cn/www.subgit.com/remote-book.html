@@ -158,11 +158,11 @@
 					<a href="#21">6. 修改Subgit配置</a>
 				</li>
 				<li class="subchapter">
-					<a href="#22">6.1. Writing Hooks</a>
+					<a href="#22">6.1. 钩子（Hook）程序</a>
 				</li>
 				<li class="subchapter">
 					<!--<a href="#23">6.2. Applying configuration changes</a>-->
-					<a href="#23">6.2. 如何让配置变更工作</a>
+					<a href="#23">6.2. 如何让配置立即生效</a>
 				</li>
 				<li class="chapter">
 					<!--<a href="#24">7. Uninstalling SubGit</a>-->
@@ -172,7 +172,7 @@
 					<a href="#25">8. 注册SubGit</a>
 				</li>
 				<li class="chapter">
-					<a href="#26">9. Translation Limitations</a>
+					<a href="#26">9. SVN迁移Git的限制</a>
 				</li>
 				<li class="chapter">
 					<a href="#27">10. 备份</a>
@@ -181,7 +181,7 @@
 					<a href="#28">11. Subgit对系统的要求</a>
 				</li>
 				<li class="chapter">
-					<a href="#29">12. 安装Subgit工具</a>
+					<a href="#29">12. 安装SubGit</a>
 				</li>
 				<li class="chapter">
 					<a href="#30">13. 寻求帮助</a>
@@ -196,22 +196,22 @@
 <h2>Chapter 1. Overview</h2>
 
 <p>SubGit is a tool for bidirectional Subversion and Git repositories synchronization. SubGit is written in Java.</p>
-<p>SubGit 是一个用java编写，实现SVN和Git仓库上香同步的工具。</p>
+<p>SubGit 是一个用java编写，实现SVN到Git仓库的迁移，以及实时双向同步的工具。</p>
 
 <p>For information on how to install SubGit into the <strong>local</strong> Subversion repository, refer to <a href="#">SubGit Local Book</a>. This book only covers the case when SubGit is used to create Git mirror of a remote Subversion repository.</p>
 
-<p>如何将SubGit安装在 <strong>SVN仓库中</strong>, 请参考 <a href="#">SubGit Local Book</a>. 此文档只是针对，在本地路径中通过SubGit创建一个远程SVN仓库的Git镜像</p>
+<p>关于将SubGit安装在 <strong>SVN 服务器</strong>, 请参考 <a href="#">SubGit Local Book</a>. 此文档只是针对，通过SubGit，在本地创建一个远程SVN仓库的Git镜像</p>
 
 <p>Most commonly, SubGit user starts with Subversion repository being configured on the server. Access to Subversion repository is available over network (with HTTP(s), plain svn or svn over SSH protocols) and over the local file system. Correspondingly, users requests are handled by Apache Web Server, svnserve daemon or sshd daemon which invokes svnserve process. Figure 1.1 shows a generic outline of the described configuration.</p>
 
 <p>大部分情况，SubGit可以通过网络访问SVN远程仓库。用户发出请求，Apach Web服务器会处理这些这些请求。</p>
 
-<p><strong>Figure 1.1. Common Subversion Setup</strong>
+<p><strong>图 1.1. SVN</strong>
 <img src="img/remotebook/start.png" alt="Common Subversion Setup"></p>
 
 <p>User creates Git repositories with SubGit and configures them so, that these repositories are kept in sync with the remote Subversion repository. Each Git repository mirrors one Subverion project (there could be multiple projects within a single Subversion repository). Changes pushed to the Git repository are instantly translated into Subversion project and vice versa - commits to Subversion project are reflected in the corresponding Git repository.</p>
 
-<p>通过SubGit创建Git仓库，同时Git仓库和SVN远程仓库保持实时的双向同步。每一个Git仓库是一个SVN项目的镜像。如果SVN仓库中有多个项目，那么就会创建多个Git镜像。Git仓库中发生的变更，立即会被同步到SVN中，与此同时，SVN中的变更也会被同步到Git仓库中。</p>
+<p>通过SubGit创建Git仓库，同时Git仓库和SVN远程仓库保持实时地双向同步。每一个Git仓库是一个SVN项目（Project）的镜像。如果SVN仓库中有多个项目，那么就会创建多个Git镜像。Git仓库中发生的变更，立即会被同步到SVN中，与此同时，SVN中的变更也会被同步到Git仓库中。</p>
 
 <p>Optionally, user may enable revision properties on Subversion side by enabling pre-revprop-change hook in Subversion repository - this will let SubGit use single Subversion user account, but this modification is not required, so even Subversion repositories that you do not have shell access to could be mirrored with SubGit. Figure 1.2 shows typical SubGit set up that allows one to use both Subversion and Git and smoothes migration path.</p>
 
@@ -219,10 +219,10 @@
 
 <p>During mirror initialization stage, SubGit translates existing Subversion revisions into a newly created Git repository. There is also a way to skip mirroring and only use SubGit for one-time import from Subversion to Git.</p>
 
-<p>Git镜像初始化阶段，SubGit把SVN仓库中所有的版本（revision）全部转换到Git仓库中。当然，也可以跳过这一步，通过SubGit的导入功能（One-time import)导入，将SVN的所有version全部倒入Git仓库中。但是，除非在导入完成后，开启SVN和Git的双向同步功能，否则默认是不开启同步。</p>
+<p>Git镜像初始化阶段，SubGit把SVN仓库中所有的版本（revision）全部转换到Git仓库中。当然，也可以跳过这一步，通过SubGit的导入功能（One-time import)，将SVN的所有版本（revision）全部导入到Git仓库中。但是，除非在导入完成后，开启SVN和Git的双向同步功能，否则默认是不开启同步。</p>
 
-<p><strong>Figure 1.2. Git Mirror of a Remote Subversion Repository created with SubGit</strong>
-<p><strong>图 1.2. 通过SubGit创建一个远程SVN仓库的Git镜像</strong>
+<p><strong>图 1.2. Git Mirror of a Remote Subversion Repository created with SubGit</strong>
+<p><strong>图 1.2. 通过SubGit创建远程SVN仓库的Git镜像</strong>
 <img src="img/remotebook/remote-subgit.png" alt="Git Mirror of a Remote Subversion Repository created with SubGit"></p>
 
 <p><strong>Chapter summary:</strong></p>
@@ -235,9 +235,9 @@
 <li>SubGit grants users with a choice of whether to use Git or Subversion and smoothes migration path</li>
 <li>SubGit is implemented in Java and needs Java 1.5 or newer</li>
 <li></li>
-<li>SubGit创建SVN远程仓库中项目（Project）级别的Git镜像</li>
+<li>SubGit创建SVN仓库中项目（Project）级别的Git镜像</li>
 <li>SubGit通过导入(One-time import)功能，将SVN仓库的版本（revision）全部导入到Git仓库</li>
-<li>无需直接访问SVN仓库，SubGit能够实现Git仓库的中的变更，自动到SVN仓库</li>
+<li>无需直接访问SVN仓库，SubGit能够实现Git仓库的变更，自动同步到SVN仓库</li>
 <li>SubGit grants users with a choice of whether to use Git or Subversion and smoothes migration path</li>
 <li>SubGit需要JAVA 1.5或者更高的版本支持</li>
 </ul>
@@ -286,17 +286,17 @@
 
 <p>There are a few limitations on translation (see <a href="#chapter9">Chapter 9, Translation Limitations</a>). These limitations only affects translation, and do not prevent Git and Subversion from being used to their full extents.</p>
 
-<p>SubGit几乎可以将SVN的整个仓库完整地迁移到Git，但是还是有一些信息无法转换，(请参考 <a href="#chapter9">Chapter 9, Translation Limitations</a>). 这些限制只会影响SVN和Git之间的转换，但是不会对Git和SVN本身的使用有任何的限制。</p>
+<p>SubGit几乎可以将SVN仓库完整地迁移到Git，但是还是有一些信息无法转换，(请参考 <a href="#chapter9">Chapter 9, Translation Limitations</a>). 这些限制只会影响SVN和Git之间的转换，但是不会对Git和SVN本身的使用有任何的限制。</p>
 
 <p><a href="#up"></a></p>
 
 </div>
 <div class="wrapper" id="3">
-<h2>Chapter 3. Mirror Configuration Overview</h2>
+<h2>Chapter 3. SubGit配置</h2>
 
 <p>To synchronize Subversion and Git repositories, SubGit maps entities of one system to those of another. One Git repository is always mapped to a single project within Subversion repository. There could be from one to many projects in Subversion repository. Git repository contains SubGit configuration that defines the following information and mappings:</p>
 
-<p>为了同步SVN和Git仓库，SubGit把SVN仓库中的一个Project匹配到，Git的一个仓库中。SVN的一个仓库中可以有多个Project。Git仓库中包含了SubGit的的配置信息，配置信息包含以下的SVN和Git的匹配信息：</p>
+<p>为了同步SVN和Git仓库，SubGit把SVN仓库中的一个Project匹配到，Git的一个仓库中。SVN的一个仓库中可以有多个Project，每个Project都有一个Git镜像以及SubGit配置文件。Git仓库中包含了SubGit的的配置信息(path_of_Git_repo/subgit)，配置信息包含以下的SVN和Git的匹配信息：</p>
 
 <ul>
 <li>Subversion project location within Subversion repository</li>
@@ -311,7 +311,7 @@
 
 <p>Above mappings are static and configured within Git repository once before translation and synchronization is started. All mappings and other information is stored in configuration files located in the GIT_REPOS/subgit directory. Following sections describe these mappings in more details.</p>
 
-<p>上述SubGit配置，都是静态的，需要在SVN仓库迁移和同步前配置完成。配置信息保存在GIT_REPOS/subgit目录中。后面的章节会详细说明配置文件。</p>
+<p>上述SubGit配置，需要在SVN仓库迁移和同步前配置完成。配置信息保存在GIT_REPOS/subgit目录中。后面的章节会详细说明配置文件。</p>
 
 
 <blockquote>
@@ -327,10 +327,11 @@ SVN本身就是一个强大的VCS系统，对项目的目录结构，几乎是�
 </div>
 <div class="wrapper" id="4">
 <h3>3.1. Subversion Projects Location</h3>
+<h3>3.1. SVN 项目结构</h3>
 
 <p>Subversion repository may contain one or more projects. Project is a location (folder) in Subversion repository which follows Subversion recommended repository layout, i.e. project folder has <em>trunk</em>, <em>branches</em> and <em>tags</em> subfolders:</p>
 
-<p>一个SVN仓库可能包含多个项目。在SVN仓库中，一个项目被看作就是一个目录，同时遵循SVN推荐的标准目录结构 <em>主干（trunk）</em>, <em>分支（branches/branch）</em> 和 <em>标签（tags/tag）</em> subfolders:</p>
+<p>SVN仓库可能包含多个项目。在SVN仓库中，一个项目可以看作是一个目录，同时遵循SVN推荐的标准目录结构 <em>主干（trunk）</em>, <em>分支（branches/branch）</em> 和 <em>标签（tags/tag）</em> subfolders:</p>
 
 
 <div class="highlight"><pre><code class="language-text" data-lang="text">/project
@@ -339,7 +340,8 @@ SVN本身就是一个强大的VCS系统，对项目的目录结构，几乎是�
     /tags     # 标签 (标签实际是主干或者分支的一个快照)
 </code></pre></div>
 <p>It is not necessary for <em>trunk</em>, <em>branches</em> and <em>tags</em> folders to have these exact names, but the roles of these folders are important. Each project could be mapped to a bare Git repository as shown in Figure 3.1 and Figure 3.3 along with the corresponding parts of SubGit configuration file.</p>
-<p><em>主干（trunk）</em>, <em>分支（branches）</em> 和<em>标签（tags）</em>，并不是说必须叫Trunk，Branches，Tags。但是这些目录代表功能是不能改变的。如图：3.1和图3.3所示，一个SVN项目匹配一个空的Git仓库，并且包含与之对应的SubGit配置</p>
+
+<p><em>主干（trunk）</em>, <em>分支（branches）</em> 和<em>标签（tags）</em>，并不是说必须叫Trunk，Branches，Tags。但是这些目录代表功能是不能改变的。如图：3.1和图3.3所示，一个SVN项目匹配一个Git仓库，并且包含与之对应的SubGit配置</p>
 
 <p><strong>Figure 3.1. Single Project Repository Mapping</strong>
 <p><strong>Figure 3.1. 只包含一项目的SVN仓库</strong>
