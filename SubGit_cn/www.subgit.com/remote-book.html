@@ -286,7 +286,7 @@
 
 <p>There are a few limitations on translation (see <a href="#chapter9">Chapter 9, Translation Limitations</a>). These limitations only affects translation, and do not prevent Git and Subversion from being used to their full extents.</p>
 
-<p>SubGit几乎可以将SVN仓库完整地迁移到Git，但是还是有一些信息无法转换，(请参考 <a href="#chapter9">Chapter 9, Translation Limitations</a>). 这些限制只会影响SVN和Git之间的转换，但是不会对Git和SVN本身的使用有任何的限制。</p>
+<p>SubGit几乎可以将SVN仓库完整地迁移到Git，但是有一些信息无法转换，(请参考 <a href="#chapter9">Chapter 9, Translation Limitations</a>). 这些限制只会影响SVN和Git之间的转换，但是不会对Git和SVN本身的使用有任何的限制。</p>
 
 <p><a href="#up"></a></p>
 
@@ -321,7 +321,7 @@ Subversion is a very powerful system and sets mostly no limits on the repository
 
 <blockquote>
 <p><strong>注意:</strong><br>
-SVN本身就是一个强大的VCS系统，对项目的目录结构，几乎是没有任何要求</p>
+SVN是一个强大的集中式版本控制系统，但是对仓库中项目的目录结构，几乎是没有任何要求。</p>
 </blockquote>
 
 </div>
@@ -455,13 +455,16 @@ tags = stamps/*:refs/tags/*
 <h3>3.3. Authors Mapping</h3>
 
 <p>By default there is no explicit authors mapping and the following rules are used for translation:</p>
+<p>一般情况，SubGit同步SVN的revision到Git时，不需要特别指定SVN和Git的用户匹配关系，SubGit按照下列默认规则：</p>
 
 <ul>
-<li>Subversion &quot;svn_user_name&quot; is translated to &quot;svn_user_name &lt;&gt;&quot; in Git</li>
-<li>Git &quot;Author Name &lt;email@domain.com&gt;&quot; is translated to &quot;Author Name&quot; in Subversion</li>
+<li>SVN的用户转换为Git的用户</li>
+<li>Git &quot;用户名 &lt;email@domain.com&gt;&quot; 转换为 SVN的&quot;用户&quot;</li>
 </ul>
 
 <p>Additionally to the default rule, explicit authors mapping may be provided by SubGit configuration. Authors mapping is stored in a separate text file which is looked at GIT_REPOS/subgit/authors.txt by default. Mapping file is read in system default encoding.</p>
+<p>当然，也可以通过在subgit/authors.txt文件中配置SVN和Git的用户匹配关系。SubGit根据此文件，将SVN的commitor转换成Git的Commitor</p>
+
 
 <p><strong>Figure 3.9. GIT_REPOS/subgit/authors.txt file</strong></p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">svn_user_name = Git Name &lt;name@email.com&gt;
@@ -483,7 +486,7 @@ authorsFile = subgit/authors.txt
 <div class="wrapper" id="7">
 <h2>Chapter 4. One-time Import from Subversion to Git</h2>
 
-<p>通过SubGit完成SVN到Git的迁移后，如果不需要实时同步SVN和Git，那么SubGit提供另外一种方式，导入SVN的所有Version。导入命令需要用户提供所有的必要参数，从而可以通过batch，实现导入自动化。</p>
+<p>通过SubGit完成SVN到Git的迁移后，如果不需要实时同步SVN和Git，那么SubGit提供另外一种方式，导入SVN的所有revision。导入命令需要用户提供配置相关的必要参数，从而可以通过batch，实现导入自动化。</p>
 <p>执行导入前，并不需要Subgit config 命令，配置git仓库。</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">$ subgit help import
 
@@ -491,12 +494,11 @@ info: Import SVN or Git repository.
 usage: subgit import [--svn-url URL] [--default-domain DOMAIN] [--minimal-revision REV] [--authors-file FILE] [--trunk PATH] [--branches PATH] [--tags PATH] [--username SVN_USERNAME] [--password SVN_PASSWORD] [--non-interactive] [--trust-server-cert] [--private-key SVN_PRIVATE_KEY_PATH] [--private-key-passphrase SVN_PRIVATE_KEY_PASSPHRASE] REPOS_PATH
 
     
-    导入指定的SVN项目到Git仓库中。
-    如果Git仓库不存在，自动创建目录
+    导入指定的SVN项目到Git仓库中。如果Git仓库不存在，自动创建仓库目录
 
-    完成导入后
-    如果不需要SVN和Git同步，执行 subgit uninstall --purge REPOS_PATH 删除SubGit相关文件
-    如果需要同步，执行 subgit install REPOS_PATH 开启自动同步
+    完成导入后：
+    执行 subgit uninstall --purge REPOS_PATH 删除SubGit相关文件，关闭自动同步。
+    如果需要自动同步，执行 subgit install REPOS_PATH 开启自动同步
 
 Valid options:
 
@@ -517,7 +519,7 @@ Valid options:
 
 <p>In most cases, defaults along with pre-existing Subversion authentication storage would be sufficient and only Subversion project URL have to be specified as an import command argument:</p>
 
-<p>大部分情况下，不需要指定username和password，默认的或者缓存中的用户权限就可以， 只有SVN URL需要指定:</p>
+<p>然而，一般情况下，不需要指定username和password，默认的或者缓存的用户权限就足够执行导入，因此，只需要指定SVN URL，参考如下命令：</p>
 
 <div class="highlight"><pre><code class="language-text" data-lang="text">$ subgit import --non-interactive --svn-url http://svn.svnkit.com/repos/sqljet sqljet.git
 SubGit version 2.0.0-EAP (&#39;Patrick&#39;) build #2552
@@ -531,6 +533,7 @@ Translating Subversion revisions to Git commits...
 IMPORT SUCCESSFUL
 </code></pre></div>
 <p>You may interrupt import operation with Ctrl-C and resume it later. Also, it is possible to enable synchronization by running subgit install GIT_REPOS upon import completion.</p>
+<p>可以通过Ctrl-C临时中断导入。一旦导入结束，可以通过执行“SubGit install git_repos” 开启SVN和Git的自动同步。</p>
 
 <p><a href="#up"></a></p>
 
@@ -704,6 +707,8 @@ shelves = shelves/*:refs/shelves/*
 <h3>5.7. Adjust configuration: credentials</h3>
 
 <p>In order to create new revision in Subversion repository, SubGit needs credentials to authorize itself with Subversion server. SubGit user may provide multiple sets of credentials (username/password pairs) so that SubGit could choose with username to authorize with when creating new revision. There are a few sources SubGit looks for credentials:</p>
+
+<p>SubGit同步Git仓库的Commit到SVN仓库，需要能够访问SVN仓库的权限。subgit/passwd文件，可以配置多个user/password，实施同步时，在passwd文件中，寻找commiter和password，如果匹配成功，同步变更到SVN仓库:</p>
 
 <p><strong>GIT_REPOS/subgit/passwd file:</strong> SubGit looks into GIT_REPOS/subgit/passwd file to read username/password pairs. Passwords are expected to be plaintext. It is a good idea to limit file read access for this file to the user account that runs SubGit.</p>
 <div class="highlight"><pre><code class="language-text" data-lang="text">username password
